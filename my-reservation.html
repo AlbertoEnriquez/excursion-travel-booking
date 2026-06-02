@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Mi reserva — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* Lookup form */
+.lookup{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-md);
+  padding:var(--space-5);
+  max-width:520px;margin:0 auto;
+}
+.lookup h2{font-size:var(--fs-xl);font-weight:800;margin-bottom:var(--space-2)}
+.lookup p{color:var(--brand-muted);font-size:var(--fs-sm);margin-bottom:var(--space-4);line-height:1.5}
+
+/* Status timeline */
+.status-card{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  margin-bottom:var(--space-4);
+}
+.status-head{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:var(--space-3);margin-bottom:var(--space-4);
+  flex-wrap:wrap;
+}
+.status-code{
+  font-family:'JetBrains Mono',monospace;
+  font-size:var(--fs-base);font-weight:700;letter-spacing:.04em;
+  color:var(--brand-muted);
+}
+.status-code b{color:var(--brand-ink);font-size:var(--fs-lg)}
+@media (min-width:768px){.status-code b{font-size:var(--fs-xl)}}
+
+.timeline{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;position:relative;
+  margin-top:var(--space-4);
+}
+.timeline::before{
+  content:"";position:absolute;
+  top:18px;left:12.5%;right:12.5%;height:2px;
+  background:rgba(16,24,40,.1);z-index:0;
+}
+.tline{
+  position:relative;z-index:1;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.tline .dot{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--brand-bg);color:var(--brand-muted);
+  display:grid;place-items:center;
+  border:2px solid var(--brand-surface);
+  font-weight:800;font-size:var(--fs-sm);
+}
+.tline.done .dot{background:var(--brand-primary);color:#fff}
+.tline.active .dot{
+  background:var(--brand-primary);color:#fff;
+  box-shadow:0 0 0 4px var(--brand-primary-glow);
+  animation:pulse 2s infinite;
+}
+.tline b{font-size:var(--fs-xs);font-weight:700;color:var(--brand-ink);line-height:1.3}
+.tline span{font-size:10px;color:var(--brand-muted);font-weight:600}
+.tline.pending b,.tline.pending span{color:var(--brand-muted)}
+@keyframes pulse{
+  0%,100%{box-shadow:0 0 0 4px var(--brand-primary-glow)}
+  50%{box-shadow:0 0 0 8px var(--brand-primary-glow)}
+}
+@media (min-width:768px){
+  .timeline{grid-template-columns:repeat(4,1fr)}
+  .tline b{font-size:var(--fs-sm)}
+  .tline span{font-size:var(--fs-xs)}
+}
+
+/* Driver card */
+.driver-card{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  margin-bottom:var(--space-4);
+}
+.driver-pending{
+  display:flex;gap:var(--space-3);align-items:center;
+  background:var(--brand-bg);
+  border-radius:var(--radius-md);
+  padding:var(--space-4);
+  font-size:var(--fs-sm);color:var(--brand-muted);line-height:1.5;
+}
+.driver-pending .ic{font-size:32px;flex:0 0 auto}
+.driver-pending b{color:var(--brand-ink);font-weight:700;display:block;margin-bottom:2px}
+
+/* Trip detail block */
+.trip-block{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+  margin-bottom:var(--space-4);
+}
+.trip-leg-row{
+  padding:var(--space-4);
+  display:grid;grid-template-columns:44px 1fr auto;gap:var(--space-3);
+  align-items:center;
+}
+.trip-leg-row + .trip-leg-row{border-top:1px dashed rgba(16,24,40,.08)}
+.trip-leg-row .ic{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--brand-primary);color:#fff;
+  display:grid;place-items:center;font-size:20px;
+}
+.trip-leg-row .ic.ret{background:var(--brand-accent)}
+.trip-leg-row .meta{min-width:0}
+.trip-leg-row .meta b{display:block;font-weight:800;color:var(--brand-ink);font-size:var(--fs-base)}
+.trip-leg-row .meta span{display:block;color:var(--brand-muted);font-size:var(--fs-sm);line-height:1.5;margin-top:2px}
+.trip-leg-row .time{
+  text-align:right;
+  font-family:var(--font-display);font-size:var(--fs-lg);font-weight:800;color:var(--brand-ink);
+}
+.trip-leg-row .time small{
+  display:block;font-family:var(--font-body);
+  font-size:var(--fs-xs);color:var(--brand-muted);font-weight:600;
+}
+
+/* Info grid */
+.info-grid{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  margin-bottom:var(--space-4);
+  display:grid;grid-template-columns:1fr;gap:var(--space-4);
+}
+@media (min-width:768px){.info-grid{grid-template-columns:1fr 1fr}}
+.info-block .panel-h{margin-bottom:8px}
+.info-block p{font-size:var(--fs-sm);line-height:1.6;color:var(--brand-ink)}
+.info-block p span{color:var(--brand-muted)}
+.info-block .edit-link{
+  display:inline-block;font-size:var(--fs-xs);
+  color:var(--brand-primary);font-weight:700;margin-top:8px;
+}
+
+/* Actions */
+.actions-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-3);margin-bottom:var(--space-4)}
+@media (min-width:768px){.actions-grid{grid-template-columns:repeat(4,1fr)}}
+.action-card{
+  background:var(--brand-surface);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-4) var(--space-3);
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  transition:.2s var(--ease);
+  cursor:pointer;text-decoration:none;color:inherit;
+}
+.action-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);color:var(--brand-primary)}
+.action-card .ic{
+  width:44px;height:44px;border-radius:var(--radius-md);
+  background:var(--brand-bg);color:var(--brand-primary);
+  display:grid;place-items:center;font-size:20px;
+}
+.action-card.danger .ic{background:var(--err-bg);color:var(--err)}
+.action-card.danger:hover{color:var(--err)}
+.action-card b{font-size:var(--fs-sm);font-weight:700}
+.action-card span{font-size:var(--fs-xs);color:var(--brand-muted);line-height:1.3}
+
+/* Policy box */
+.policy-box{
+  background:var(--brand-bg);
+  border-radius:var(--radius-md);
+  padding:var(--space-4);
+  font-size:var(--fs-sm);color:var(--brand-muted);
+  line-height:1.6;margin-bottom:var(--space-4);
+}
+.policy-box b{color:var(--brand-ink)}
+
+/* Status badge */
+.status-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 12px;border-radius:var(--radius-pill);
+  font-size:var(--fs-xs);font-weight:800;
+}
+.status-badge.confirmed{background:var(--ok-bg);color:var(--ok)}
+
+.support-strip{
+  text-align:center;padding-top:var(--space-5);
+  border-top:1px solid rgba(16,24,40,.08);
+}
+.support-strip p{color:var(--brand-muted);font-size:var(--fs-sm);margin-bottom:var(--space-3)}
+.support-strip .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+
+/* Hide/show by state */
+.view-lookup,.view-detail{display:none}
+.view-lookup.on,.view-detail.on{display:block}
+
+.toggle-row{
+  text-align:center;margin-bottom:var(--space-4);
+}
+.toggle-row a{
+  font-size:var(--fs-sm);font-weight:700;color:var(--brand-primary);
+  text-decoration:underline;
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="hburger" aria-label="Inicio">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <span class="pill">🌐 ES</span>
+      <span class="pill">MXN $</span>
+    </div>
+  </div>
+</header>
+
+<main class="container section" style="padding-top:var(--space-4)">
+
+  <!-- ====== VIEW 1: LOOKUP FORM ====== -->
+  <section class="view-lookup" id="lookup">
+    <div style="text-align:center;margin-bottom:var(--space-6)">
+      <h1 style="font-size:var(--fs-2xl);font-weight:800;margin-bottom:8px">Consultar mi reserva</h1>
+      <p style="color:var(--brand-muted);font-size:var(--fs-base)">Encuentra los detalles de tu viaje, modifícalo o cancélalo.</p>
+    </div>
+
+    <div class="lookup">
+      <h2>Ingresa tus datos</h2>
+      <p>Te llegó por email cuando hiciste la reserva. Si no lo encuentras, escríbenos.</p>
+
+      <div class="frow">
+        <input class="inp" placeholder="Código de reserva (ej. ALF-2X8K-7C)" value="ALF-2X8K-7C" style="font-family:'JetBrains Mono',monospace;letter-spacing:.05em" />
+      </div>
+      <div class="frow">
+        <input class="inp" type="email" placeholder="Tu correo electrónico" value="beto@punk.solutions" />
+      </div>
+      <button class="btn btn-block btn-lg" onclick="show('detail')" style="margin-top:8px">
+        🔍 Buscar mi reserva
+      </button>
+
+      <p style="font-size:var(--fs-xs);color:var(--brand-muted);text-align:center;margin-top:var(--space-4);line-height:1.5">
+        ¿No tienes el código? <a href="mailto:ebookings@aloftcancun.com" style="color:var(--brand-primary);font-weight:700">Escríbenos</a> y te lo reenviamos.
+      </p>
+    </div>
+  </section>
+
+  <!-- ====== VIEW 2: RESERVATION DETAIL ====== -->
+  <section class="view-detail on" id="detail">
+
+    <div class="toggle-row">
+      <a href="#" onclick="show('lookup');return false;">← Consultar otra reserva</a>
+    </div>
+
+    <!-- Status + code header -->
+    <div class="status-card">
+      <div class="status-head">
+        <div>
+          <div class="status-code">Reserva <b>ALF-2X8K-7C</b></div>
+          <p style="color:var(--brand-muted);font-size:var(--fs-sm);margin-top:4px">A nombre de Luis Enríquez</p>
+        </div>
+        <span class="status-badge confirmed">✓ Confirmada</span>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline">
+        <div class="tline done">
+          <div class="dot">✓</div>
+          <b>Confirmada</b>
+          <span>27 may</span>
+        </div>
+        <div class="tline active">
+          <div class="dot">2</div>
+          <b>Chofer asignado</b>
+          <span>24h antes</span>
+        </div>
+        <div class="tline pending">
+          <div class="dot">3</div>
+          <b>En curso</b>
+          <span>28 may</span>
+        </div>
+        <div class="tline pending">
+          <div class="dot">4</div>
+          <b>Completada</b>
+          <span>29 may</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Driver -->
+    <div class="driver-card">
+      <div class="panel-h" style="margin-bottom:var(--space-3)">🚖 Tu chofer</div>
+      <div class="driver-pending">
+        <span class="ic">🕒</span>
+        <div>
+          <b>Lo asignaremos 24 horas antes de tu viaje</b>
+          Te llegará por SMS y email el nombre, foto, placa y marca del vehículo. Por seguridad lo confirmamos al momento de salir.
+        </div>
+      </div>
+    </div>
+
+    <!-- Trip details -->
+    <div class="trip-block">
+      <div class="trip-leg-row">
+        <div class="ic">✈️</div>
+        <div class="meta">
+          <b>Llegada · jueves 28 may</b>
+          <span>Cancún Intl (CUN) → Aloft Cancún</span>
+          <span>Vuelo AR 1370 · 06:30 hrs</span>
+        </div>
+        <div class="time">07:30<small>hora pickup</small></div>
+      </div>
+      <div class="trip-leg-row">
+        <div class="ic ret">🏨</div>
+        <div class="meta">
+          <b>Regreso · viernes 29 may</b>
+          <span>Aloft Cancún → Cancún Intl (CUN)</span>
+          <span>Vuelo AD 7381 · 13:00 hrs</span>
+        </div>
+        <div class="time">09:14<small>hora pickup</small></div>
+      </div>
+    </div>
+
+    <!-- Info grid: pasajero, vehículo, pago -->
+    <div class="info-grid">
+      <div class="info-block">
+        <div class="panel-h">👤 Pasajero</div>
+        <p>
+          <b style="color:var(--brand-ink)">Luis Enríquez</b><br/>
+          <span>beto@punk.solutions</span><br/>
+          <span>+52 236 994 2511</span>
+        </p>
+        <a href="#" class="edit-link">✏️ Editar datos</a>
+      </div>
+      <div class="info-block">
+        <div class="panel-h">🚗 Vehículo y servicio</div>
+        <p>
+          <b style="color:var(--brand-ink)">Sedán Privado</b><br/>
+          <span>2 pasajeros · 2 maletas</span><br/>
+          <span>😊 Meet & Greet incluido</span>
+        </p>
+      </div>
+      <div class="info-block">
+        <div class="panel-h">💳 Pago</div>
+        <p>
+          <b style="color:var(--brand-ink)">$1,280 MXN · Pagado</b><br/>
+          <span>Tarjeta VISA ****4242</span><br/>
+          <span>Stripe · 27 may 2026</span>
+        </p>
+        <a href="#" class="edit-link">🧾 Solicitar factura (CFDI)</a>
+      </div>
+      <div class="info-block">
+        <div class="panel-h">📝 Notas</div>
+        <p>
+          <span style="font-style:italic">Sin notas adicionales.</span>
+        </p>
+        <a href="#" class="edit-link">✏️ Agregar nota para el chofer</a>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-grid">
+      <a class="action-card" href="#">
+        <div class="ic">📄</div>
+        <b>Descargar voucher</b>
+        <span>PDF</span>
+      </a>
+      <a class="action-card" href="#">
+        <div class="ic">📅</div>
+        <b>Añadir al calendario</b>
+        <span>Apple · Google</span>
+      </a>
+      <a class="action-card" href="#">
+        <div class="ic">✏️</div>
+        <b>Modificar reserva</b>
+        <span>Fecha · vehículo</span>
+      </a>
+      <a class="action-card danger" href="#" onclick="if(confirm('¿Cancelar tu reserva? Recibirás el reembolso completo en 2-5 días.'))alert('Cancelación procesada (simulación).');return false;">
+        <div class="ic">✕</div>
+        <b>Cancelar reserva</b>
+        <span>Reembolso 100%</span>
+      </a>
+    </div>
+
+    <!-- Policy reminder -->
+    <div class="policy-box">
+      <b>↩️ Política de cancelación</b><br/>
+      Cancelación gratuita hasta el <b>27 may a las 07:30 hrs</b> (24 horas antes del viaje). Después de esa fecha, no hay reembolso.<br/><br/>
+      Si necesitas modificar el vuelo o el horario y aún hay tiempo, lo hacemos sin costo.
+    </div>
+
+    <!-- Support -->
+    <div class="support-strip">
+      <p>¿Necesitas ayuda con esta reserva?</p>
+      <div class="btns">
+        <a href="tel:+17867236220" class="btn btn-ghost btn-sm">📞 +1 786 723 6220</a>
+        <a href="https://wa.me/17867236220" class="btn btn-ghost btn-sm">💬 WhatsApp</a>
+        <a href="mailto:ebookings@aloftcancun.com" class="btn btn-ghost btn-sm">✉️ Email</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún · Operado por Excursion Travel</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="my-reservation.html" class="on">Mi reserva</a>
+  <a href="error-payment.html">⚠️</a>
+  <a href="no-availability.html">⏰</a>
+  <a href="404.html">404</a>
+  <a href="preview.html">📱</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+/* Toggle entre lookup y detail */
+function show(v){
+  document.getElementById('lookup').classList.toggle('on', v==='lookup');
+  document.getElementById('detail').classList.toggle('on', v==='detail');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

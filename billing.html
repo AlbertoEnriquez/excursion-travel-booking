@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Facturación CFDI — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* Stepper compacto para billing */
+.bill-steps{
+  display:flex;justify-content:center;gap:var(--space-2);
+  margin-bottom:var(--space-6);
+}
+.bs{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:var(--radius-pill);
+  background:var(--brand-bg);font-size:var(--fs-sm);font-weight:700;color:var(--brand-muted);
+}
+.bs.on{background:var(--brand-primary);color:#fff}
+.bs.done{background:var(--ok-bg);color:var(--ok)}
+.bs .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:var(--fs-xs);background:rgba(0,0,0,.08)}
+.bs.on .n,.bs.done .n{background:rgba(255,255,255,.25)}
+
+/* Select y datalist */
+.field-stack{display:flex;flex-direction:column;gap:6px;margin-bottom:var(--space-3)}
+.field-stack label{font-size:var(--fs-xs);font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand-muted)}
+select.inp{cursor:pointer;background:var(--brand-bg) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' stroke='%235e7b7e' stroke-width='2' fill='none'/></svg>") no-repeat right 14px center;padding-right:36px;appearance:none;-webkit-appearance:none}
+
+/* Help */
+.help-text{font-size:var(--fs-xs);color:var(--brand-muted);margin-top:4px;line-height:1.4}
+
+/* View states */
+.view{display:none}
+.view.on{display:block;animation:fadeIn .35s var(--ease)}
+
+/* Found reservation card */
+.found-card{
+  background:var(--ok-bg);
+  border:1px solid #bbf7d0;
+  border-radius:var(--radius-md);
+  padding:var(--space-4);
+  margin-bottom:var(--space-4);
+  display:flex;gap:var(--space-3);align-items:center;
+}
+.found-card .ic{font-size:24px;flex:0 0 auto}
+.found-card .meta{flex:1;font-size:var(--fs-sm);line-height:1.5}
+.found-card .meta b{display:block;color:var(--brand-ink);font-weight:800;font-size:var(--fs-base);font-family:'JetBrains Mono',monospace}
+.found-card .meta span{color:var(--brand-muted)}
+
+/* Success view */
+.success-icon{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--ok-bg);color:var(--ok);
+  display:grid;place-items:center;
+  margin:0 auto var(--space-4);
+}
+.success-icon svg{width:44px;height:44px}
+
+/* Plazo info */
+.deadline-banner{
+  background:var(--warn-bg);
+  border-left:3px solid var(--warn);
+  padding:var(--space-3) var(--space-4);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom:var(--space-5);
+  font-size:var(--fs-sm);line-height:1.55;color:#7d4321;
+}
+.deadline-banner b{color:#0c2e31;font-weight:800}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="hburger" aria-label="Volver al inicio">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <a class="hdr-link" href="my-reservation.html">Mi reserva</a>
+    </div>
+  </div>
+</header>
+
+<main class="container section" style="max-width:720px">
+
+  <div class="legal-head">
+    <div class="kicker">🧾 Facturación electrónica CFDI 4.0</div>
+    <h1>Genera tu factura</h1>
+    <p class="meta">Recibe tu factura por correo electrónico en formato PDF y XML, emitida ante el SAT.</p>
+  </div>
+
+  <!-- Plazo -->
+  <div class="deadline-banner">
+    ⏰ <strong>Plazo:</strong> tienes hasta <b>el último día del mes en curso</b> en que se realizó tu reserva para solicitar tu factura. Pasada esa fecha el SAT ya no permite emitir el comprobante.
+  </div>
+
+  <!-- Steps -->
+  <div class="bill-steps">
+    <div class="bs on" id="bs1"><span class="n">1</span> Reserva</div>
+    <div class="bs" id="bs2"><span class="n">2</span> Datos fiscales</div>
+    <div class="bs" id="bs3"><span class="n">3</span> Listo</div>
+  </div>
+
+  <!-- ============ VIEW 1: Lookup reserva ============ -->
+  <section class="view on" id="view1">
+    <div class="panel">
+      <div class="panel-h">Encuentra tu reserva</div>
+      <p style="font-size:var(--fs-sm);color:var(--brand-muted);margin-bottom:var(--space-4);line-height:1.55">
+        Ingresa el código que recibiste en tu email de confirmación.
+      </p>
+
+      <div class="frow">
+        <input class="inp" placeholder="Código de reserva (ej. ALF-2X8K-7C)" value="ALF-2X8K-7C" style="font-family:'JetBrains Mono',monospace;letter-spacing:.05em" id="r-code" />
+      </div>
+      <div class="frow">
+        <input class="inp" type="email" placeholder="Correo electrónico de la reserva" value="beto@punk.solutions" id="r-email" />
+      </div>
+
+      <button class="btn btn-block btn-lg" onclick="goStep(2)" style="margin-top:var(--space-2)">🔍 Buscar reserva</button>
+
+      <p style="font-size:var(--fs-xs);color:var(--brand-muted);text-align:center;margin-top:var(--space-4)">
+        ¿No tienes el código? <a href="mailto:ebookings@aloftcancun.com" style="color:var(--brand-primary);font-weight:700">Escríbenos</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 2: Fiscal data ============ -->
+  <section class="view" id="view2">
+    <div class="found-card">
+      <span class="ic">✓</span>
+      <div class="meta">
+        <b>ALF-2X8K-7C</b>
+        <span>Sedán Privado · 28 may 2026 · $1,280 MXN</span>
+      </div>
+      <a href="#" onclick="goStep(1);return false;" style="color:var(--brand-primary);font-size:var(--fs-xs);font-weight:700">Cambiar</a>
+    </div>
+
+    <div class="panel">
+      <div class="panel-h">Datos fiscales</div>
+      <p style="font-size:var(--fs-sm);color:var(--brand-muted);margin-bottom:var(--space-4);line-height:1.55">
+        Verifica que los datos coincidan exactamente con tu Constancia de Situación Fiscal. Si hay errores, el SAT rechazará la factura.
+      </p>
+
+      <div class="field-stack">
+        <label for="rfc">RFC del receptor</label>
+        <input class="inp" id="rfc" placeholder="XAXX010101000" maxlength="13" style="text-transform:uppercase;font-family:'JetBrains Mono',monospace;letter-spacing:.04em" />
+        <span class="help-text">13 caracteres para persona física, 12 para persona moral.</span>
+      </div>
+
+      <div class="field-stack">
+        <label for="rs">Razón social / Nombre completo</label>
+        <input class="inp" id="rs" placeholder="Nombre legal completo, sin abreviaturas" />
+        <span class="help-text">Tal como aparece en tu Constancia de Situación Fiscal.</span>
+      </div>
+
+      <div class="frow cols-2">
+        <div class="field-stack">
+          <label for="cp">CP fiscal</label>
+          <input class="inp" id="cp" inputmode="numeric" maxlength="5" placeholder="77500" />
+        </div>
+        <div class="field-stack">
+          <label for="reg">Régimen fiscal</label>
+          <select class="inp" id="reg">
+            <option value="">Selecciona uno…</option>
+            <option value="601">601 · General de Ley Personas Morales</option>
+            <option value="603">603 · Personas Morales con Fines no Lucrativos</option>
+            <option value="605">605 · Sueldos y Salarios e Ingresos Asimilados</option>
+            <option value="606">606 · Arrendamiento</option>
+            <option value="612">612 · Personas Físicas con Actividades Empresariales</option>
+            <option value="616">616 · Sin obligaciones fiscales</option>
+            <option value="621">621 · Incorporación Fiscal</option>
+            <option value="625">625 · Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas</option>
+            <option value="626">626 · Régimen Simplificado de Confianza (RESICO)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-stack">
+        <label for="uso">Uso del CFDI</label>
+        <select class="inp" id="uso">
+          <option value="">Selecciona uno…</option>
+          <option value="G01">G01 · Adquisición de mercancías</option>
+          <option value="G02">G02 · Devoluciones, descuentos o bonificaciones</option>
+          <option value="G03" selected>G03 · Gastos en general</option>
+          <option value="I06">I06 · Comunicaciones telefónicas</option>
+          <option value="D01">D01 · Honorarios médicos, dentales y gastos hospitalarios</option>
+          <option value="D02">D02 · Gastos médicos por incapacidad o discapacidad</option>
+          <option value="P01">P01 · Por definir</option>
+          <option value="CP01">CP01 · Pagos</option>
+          <option value="S01">S01 · Sin efectos fiscales</option>
+        </select>
+        <span class="help-text">Si es para tu empresa, lo más común es <strong>G03 Gastos en general</strong>.</span>
+      </div>
+
+      <div class="field-stack">
+        <label for="email-fac">Correo para recibir la factura</label>
+        <input class="inp" type="email" id="email-fac" value="beto@punk.solutions" placeholder="email@ejemplo.com" />
+      </div>
+
+      <div class="checkbox-row" style="margin-top:var(--space-3);display:flex;gap:10px;align-items:flex-start">
+        <input type="checkbox" id="terms-fac" checked style="width:18px;height:18px;accent-color:var(--brand-primary);margin-top:3px" />
+        <label for="terms-fac" style="font-size:var(--fs-sm);line-height:1.5;font-weight:500;color:var(--brand-muted)">
+          Confirmo que los datos son correctos y aceptan los <a href="terms.html" style="color:var(--brand-primary);font-weight:700">términos de facturación</a>. Una vez emitida, los cambios solo se pueden hacer dentro del mismo mes.
+        </label>
+      </div>
+
+      <button class="btn btn-block btn-lg" onclick="goStep(3)" style="margin-top:var(--space-4)">🧾 Generar factura</button>
+
+      <p style="font-size:var(--fs-xs);color:var(--brand-muted);text-align:center;margin-top:var(--space-3)">
+        🔒 La emisión es procesada por Facturama (PAC autorizado por el SAT).
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ VIEW 3: Success ============ -->
+  <section class="view" id="view3">
+    <div class="panel" style="text-align:center;padding:var(--space-7) var(--space-5)">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 style="font-size:var(--fs-2xl);font-weight:800;margin-bottom:var(--space-3)">¡Factura generada!</h2>
+      <p style="color:var(--brand-muted);font-size:var(--fs-base);line-height:1.55;max-width:420px;margin:0 auto var(--space-5)">
+        Tu factura fue emitida ante el SAT. La enviamos a <strong style="color:var(--brand-ink)">beto@punk.solutions</strong> en formato PDF y XML.
+      </p>
+
+      <div class="found-card" style="text-align:left;max-width:420px;margin:0 auto var(--space-5);background:var(--brand-bg);border-color:rgba(16,24,40,.08)">
+        <span class="ic">📄</span>
+        <div class="meta">
+          <b>Folio fiscal (UUID)</b>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;color:var(--brand-ink);word-break:break-all">A3D7F1E8-9B2C-4D5A-8C7E-1F4B6A9D3E2C</span>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:var(--space-2);justify-content:center;flex-wrap:wrap">
+        <a href="#" class="btn">📄 Descargar PDF</a>
+        <a href="#" class="btn btn-ghost">📁 Descargar XML</a>
+      </div>
+
+      <p style="font-size:var(--fs-xs);color:var(--brand-muted);margin-top:var(--space-5)">
+        ¿No te llegó? Revisa tu carpeta de spam o <a href="#" onclick="goStep(1);return false;" style="color:var(--brand-primary);font-weight:700">regresa al inicio</a>.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún · Operado por Excursion Travel</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="my-reservation.html">Mi reserva</a>
+  <a href="terms.html">Términos</a>
+  <a href="privacy.html">Privacidad</a>
+  <a href="billing.html" class="on">Facturación</a>
+  <a href="preview.html">📱</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+
+/* Step navigation */
+function goStep(n){
+  for(let i=1;i<=3;i++){
+    const v=document.getElementById('view'+i);
+    const s=document.getElementById('bs'+i);
+    if(v)v.classList.toggle('on', i===n);
+    if(s){
+      s.classList.remove('on','done');
+      if(i<n)s.classList.add('done');
+      else if(i===n)s.classList.add('on');
+    }
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

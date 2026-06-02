@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>No pudimos procesar tu pago — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* Estado layout centrado */
+.state-wrap{
+  max-width:620px;margin:0 auto;
+  padding:var(--space-7) var(--space-4);
+}
+@media (min-width:768px){.state-wrap{padding:var(--space-8) var(--space-5)}}
+
+.state-icon{
+  width:96px;height:96px;border-radius:50%;
+  background:var(--err-bg);color:var(--err);
+  display:grid;place-items:center;
+  margin:0 auto var(--space-5);
+  animation:popIn .5s cubic-bezier(.4,1.5,.5,1) backwards;
+}
+.state-icon svg{width:48px;height:48px}
+@keyframes popIn{
+  from{transform:scale(.4);opacity:0}
+  60%{transform:scale(1.1)}
+  to{transform:scale(1);opacity:1}
+}
+
+.state-title{
+  font-size:var(--fs-2xl);font-weight:800;letter-spacing:-.02em;
+  text-align:center;margin-bottom:var(--space-3);
+}
+@media (min-width:768px){.state-title{font-size:var(--fs-3xl)}}
+.state-lead{
+  text-align:center;color:var(--brand-muted);
+  font-size:var(--fs-base);line-height:1.55;
+  margin-bottom:var(--space-6);
+}
+@media (min-width:768px){.state-lead{font-size:var(--fs-lg)}}
+
+/* Timer hold */
+.hold-banner{
+  background:var(--warn-bg);
+  border:1px solid #fde2a3;
+  border-radius:var(--radius-md);
+  padding:var(--space-3) var(--space-4);
+  margin-bottom:var(--space-5);
+  display:flex;align-items:center;gap:var(--space-3);
+  color:#854d0e;font-size:var(--fs-sm);line-height:1.5;
+}
+.hold-banner .ic{font-size:22px;flex:0 0 auto}
+.hold-banner b{font-weight:800}
+
+/* Razones probables */
+.reasons{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  margin-bottom:var(--space-5);
+}
+.reasons h3{font-size:var(--fs-base);font-weight:800;margin-bottom:var(--space-3)}
+.reasons ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--space-3)}
+.reasons li{
+  display:flex;gap:var(--space-3);align-items:flex-start;
+  font-size:var(--fs-sm);line-height:1.5;color:var(--brand-muted);
+}
+.reasons li::before{
+  content:"";flex:0 0 6px;width:6px;height:6px;border-radius:50%;
+  background:var(--brand-primary);margin-top:8px;
+}
+.reasons li b{color:var(--brand-ink);font-weight:700}
+
+/* Transaction detail */
+.tx-card{
+  background:var(--brand-bg);
+  border-radius:var(--radius-md);
+  padding:var(--space-4);
+  margin-bottom:var(--space-5);
+  font-size:var(--fs-sm);
+}
+.tx-card .tx-row{
+  display:flex;justify-content:space-between;
+  padding:6px 0;
+}
+.tx-card .tx-row span{color:var(--brand-muted)}
+.tx-card .tx-row b{color:var(--brand-ink);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:13px}
+
+/* Action stack */
+.actions-col{
+  display:flex;flex-direction:column;gap:var(--space-3);
+  margin-bottom:var(--space-5);
+}
+.actions-col .btn{width:100%;justify-content:center}
+
+/* Support strip */
+.support-strip{
+  text-align:center;
+  padding-top:var(--space-5);
+  border-top:1px solid rgba(16,24,40,.08);
+}
+.support-strip p{color:var(--brand-muted);font-size:var(--fs-sm);margin-bottom:var(--space-3)}
+.support-strip .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="payment.html" class="hburger" aria-label="Volver">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <a class="hdr-link" href="#support">Ayuda</a>
+    </div>
+  </div>
+</header>
+
+<main class="state-wrap">
+
+  <div class="state-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+    </svg>
+  </div>
+
+  <h1 class="state-title">No pudimos procesar tu pago</h1>
+  <p class="state-lead">
+    Tu banco rechazó el cargo. <b style="color:var(--brand-ink)">No te preocupes</b> —
+    no cobramos nada y tu reserva está apartada.
+  </p>
+
+  <!-- Reservation held -->
+  <div class="hold-banner">
+    <span class="ic">⏱️</span>
+    <div>
+      Tu reserva está apartada por <b id="countdown">14:58</b>.
+      Si pagas dentro de este tiempo, no perderás tu vehículo ni el precio.
+    </div>
+  </div>
+
+  <!-- Transaction detail -->
+  <div class="tx-card">
+    <div class="tx-row"><span>Tarjeta</span><b>**** 4242 · VISA</b></div>
+    <div class="tx-row"><span>Monto intentado</span><b>$1,280 MXN</b></div>
+    <div class="tx-row"><span>Razón del banco</span><b style="color:var(--err)">card_declined</b></div>
+    <div class="tx-row"><span>ID de intento</span><b>pi_3PZx4Tk2L</b></div>
+  </div>
+
+  <!-- Razones probables -->
+  <div class="reasons">
+    <h3>¿Por qué pasó esto?</h3>
+    <ul>
+      <li><span><b>Fondos insuficientes</b> — verifica el saldo o límite de crédito de la tarjeta.</span></li>
+      <li><span><b>Bloqueo del banco</b> — algunos bancos bloquean cargos en línea por seguridad. Llámales y autoriza el cargo de Aloft Cancún.</span></li>
+      <li><span><b>Datos incorrectos</b> — confirma número, fecha de vencimiento y CVC.</span></li>
+      <li><span><b>3D Secure falló</b> — si tu banco te pidió un código por SMS, asegúrate de ingresarlo a tiempo.</span></li>
+    </ul>
+  </div>
+
+  <!-- Actions -->
+  <div class="actions-col">
+    <a href="payment.html" class="btn btn-lg">🔄 Intentar de nuevo con esta tarjeta</a>
+    <a href="payment.html" class="btn btn-outline">💳 Probar con otra tarjeta</a>
+    <a href="payment.html" class="btn btn-ghost">🟧 Pagar en OXXO</a>
+  </div>
+
+  <!-- Support -->
+  <div class="support-strip" id="support">
+    <p>¿Sigue sin funcionar? Hablemos.</p>
+    <div class="btns">
+      <a href="tel:+17867236220" class="btn btn-ghost btn-sm">📞 +1 786 723 6220</a>
+      <a href="https://wa.me/17867236220" class="btn btn-ghost btn-sm">💬 WhatsApp</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="error-payment.html" class="on">⚠️ Error pago</a>
+  <a href="no-availability.html">Sin disp.</a>
+  <a href="404.html">404</a>
+  <a href="preview.html">📱</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+/* Countdown — refuerza urgencia */
+let s=898;
+const el=document.getElementById('countdown');
+const tick=()=>{
+  s--;
+  const m=Math.floor(s/60), r=String(s%60).padStart(2,'0');
+  el.textContent=m+':'+r;
+  if(s<=0){clearInterval(iv); el.textContent='expirada'}
+};
+const iv=setInterval(tick,1000);
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

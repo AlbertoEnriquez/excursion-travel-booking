@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Página no encontrada — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+.state-wrap{
+  max-width:560px;margin:0 auto;
+  padding:var(--space-7) var(--space-4);
+  text-align:center;
+}
+@media (min-width:768px){.state-wrap{padding:var(--space-8) var(--space-5)}}
+
+.big-num{
+  font-family:var(--font-display);
+  font-size:140px;font-weight:800;letter-spacing:-.05em;
+  background:var(--brand-hero);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;margin-bottom:var(--space-3);
+  display:inline-block;
+}
+@media (min-width:768px){.big-num{font-size:200px}}
+
+.state-title{
+  font-size:var(--fs-2xl);font-weight:800;letter-spacing:-.02em;
+  margin-bottom:var(--space-3);
+}
+@media (min-width:768px){.state-title{font-size:var(--fs-3xl)}}
+
+.state-lead{
+  color:var(--brand-muted);
+  font-size:var(--fs-base);line-height:1.55;
+  margin-bottom:var(--space-6);
+}
+@media (min-width:768px){.state-lead{font-size:var(--fs-lg)}}
+
+.btn-row{
+  display:flex;gap:var(--space-3);justify-content:center;
+  flex-wrap:wrap;margin-bottom:var(--space-6);
+}
+
+.useful-links{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  text-align:left;
+}
+.useful-links h3{font-size:var(--fs-base);font-weight:800;margin-bottom:var(--space-3)}
+.useful-links ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:var(--space-2)}
+.useful-links li{display:block}
+.useful-links a{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--radius-sm);
+  font-size:var(--fs-sm);font-weight:600;color:var(--brand-ink);
+  transition:.15s var(--ease);
+}
+.useful-links a:hover{background:var(--brand-bg);color:var(--brand-primary)}
+.useful-links a .ic{font-size:18px}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="hburger" aria-label="Inicio">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10h14V10"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <a class="hdr-link" href="my-reservation.html">Mi reserva</a>
+    </div>
+  </div>
+</header>
+
+<main class="state-wrap">
+
+  <div class="big-num">404</div>
+
+  <h1 class="state-title">Esta página decidió tomarse vacaciones</h1>
+  <p class="state-lead">
+    No encontramos lo que buscabas. Puede que el enlace esté roto o la página se haya movido.
+    Pero no te preocupes — estás a un clic de tu próximo viaje.
+  </p>
+
+  <div class="btn-row">
+    <a href="index.html" class="btn btn-lg">🏠 Volver al inicio</a>
+    <a href="my-reservation.html" class="btn btn-ghost btn-lg">📋 Mi reserva</a>
+  </div>
+
+  <div class="useful-links">
+    <h3>Quizás buscabas:</h3>
+    <ul>
+      <li><a href="index.html"><span class="ic">🚗</span> Reservar un transporte</a></li>
+      <li><a href="my-reservation.html"><span class="ic">🔍</span> Consultar una reserva existente</a></li>
+      <li><a href="billing.html"><span class="ic">🧾</span> Generar factura (CFDI)</a></li>
+      <li><a href="terms.html"><span class="ic">📄</span> Términos y condiciones</a></li>
+      <li><a href="mailto:ebookings@aloftcancun.com"><span class="ic">✉️</span> Contactar soporte</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="error-payment.html">⚠️ Error pago</a>
+  <a href="no-availability.html">Sin disp.</a>
+  <a href="404.html" class="on">404</a>
+  <a href="preview.html">📱</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

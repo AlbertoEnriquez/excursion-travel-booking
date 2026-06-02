@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Sin disponibilidad — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+.state-wrap{
+  max-width:700px;margin:0 auto;
+  padding:var(--space-7) var(--space-4);
+}
+@media (min-width:768px){.state-wrap{padding:var(--space-8) var(--space-5)}}
+
+.state-icon{
+  width:96px;height:96px;border-radius:50%;
+  background:var(--warn-bg);color:var(--warn);
+  display:grid;place-items:center;
+  margin:0 auto var(--space-5);
+  animation:popIn .5s cubic-bezier(.4,1.5,.5,1) backwards;
+}
+.state-icon svg{width:48px;height:48px}
+@keyframes popIn{from{transform:scale(.4);opacity:0}60%{transform:scale(1.1)}to{transform:scale(1);opacity:1}}
+
+.state-title{
+  font-size:var(--fs-2xl);font-weight:800;letter-spacing:-.02em;
+  text-align:center;margin-bottom:var(--space-3);
+}
+@media (min-width:768px){.state-title{font-size:var(--fs-3xl)}}
+.state-lead{
+  text-align:center;color:var(--brand-muted);
+  font-size:var(--fs-base);line-height:1.55;
+  margin-bottom:var(--space-6);max-width:520px;margin-inline:auto;
+}
+@media (min-width:768px){.state-lead{font-size:var(--fs-lg)}}
+
+/* Trip recap */
+.trip-recap{
+  background:var(--brand-bg);
+  border-radius:var(--radius-md);
+  padding:var(--space-3) var(--space-4);
+  margin-bottom:var(--space-5);
+  font-size:var(--fs-sm);
+  display:flex;justify-content:space-between;gap:var(--space-3);align-items:center;
+  flex-wrap:wrap;
+}
+.trip-recap b{color:var(--brand-ink);font-weight:700;display:block;font-size:var(--fs-base)}
+.trip-recap span{color:var(--brand-muted)}
+
+/* Suggestions */
+.suggest{
+  background:var(--brand-surface);
+  border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  padding:var(--space-5);
+  margin-bottom:var(--space-5);
+}
+.suggest h3{font-size:var(--fs-lg);font-weight:800;margin-bottom:var(--space-4)}
+
+.alt-dates{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-2);
+  margin-bottom:var(--space-4);
+}
+@media (min-width:768px){.alt-dates{grid-template-columns:repeat(4,1fr)}}
+.alt-date{
+  background:var(--brand-bg);
+  border:2px solid transparent;
+  border-radius:var(--radius-md);
+  padding:var(--space-3);
+  text-align:center;cursor:pointer;
+  transition:.2s var(--ease);
+  text-decoration:none;color:inherit;
+}
+.alt-date:hover{border-color:var(--brand-primary);background:var(--brand-surface)}
+.alt-date b{display:block;font-family:var(--font-display);font-size:var(--fs-lg);font-weight:800;color:var(--brand-ink)}
+.alt-date span{font-size:var(--fs-xs);color:var(--brand-muted);display:block;margin-top:2px}
+.alt-date .avail{
+  display:inline-block;background:var(--ok-bg);color:var(--ok);
+  font-size:var(--fs-xs);font-weight:700;
+  padding:2px 8px;border-radius:var(--radius-pill);
+  margin-top:6px;
+}
+
+/* Tips list */
+.tips{display:flex;flex-direction:column;gap:var(--space-3)}
+.tip-row{display:flex;gap:var(--space-3);align-items:flex-start}
+.tip-row .ic{
+  flex:0 0 36px;height:36px;border-radius:var(--radius-sm);
+  background:var(--brand-bg);color:var(--brand-primary);
+  display:grid;place-items:center;font-size:18px;
+}
+.tip-row .txt{flex:1}
+.tip-row .txt b{display:block;font-weight:700;color:var(--brand-ink);margin-bottom:2px}
+.tip-row .txt span{font-size:var(--fs-sm);color:var(--brand-muted);line-height:1.5}
+
+.support-strip{
+  text-align:center;
+  padding-top:var(--space-5);
+  border-top:1px solid rgba(16,24,40,.08);
+}
+.support-strip p{color:var(--brand-muted);font-size:var(--fs-sm);margin-bottom:var(--space-3)}
+.support-strip .btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="hburger" aria-label="Volver">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <a class="hdr-link" href="#support">Ayuda</a>
+    </div>
+  </div>
+</header>
+
+<main class="state-wrap">
+
+  <div class="state-icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+
+  <h1 class="state-title">Sin disponibilidad para esta fecha</h1>
+  <p class="state-lead">
+    No tenemos transporte disponible para el viaje que buscaste. Probablemente es **alta temporada** y la flota está reservada. Te dejamos opciones para que llegues a tu hotel sin problemas.
+  </p>
+
+  <!-- Recap de la búsqueda -->
+  <div class="trip-recap">
+    <div>
+      <b>CUN → Aloft Cancún</b>
+      <span>jue 28 may · 2 adultos · ida y vuelta</span>
+    </div>
+    <a href="index.html" class="filter">✏️ Cambiar búsqueda</a>
+  </div>
+
+  <!-- Fechas alternativas -->
+  <div class="suggest">
+    <h3>📅 Fechas cercanas con disponibilidad</h3>
+    <p style="font-size:var(--fs-sm);color:var(--brand-muted);margin-bottom:var(--space-4)">
+      Estas fechas tienen transporte para tu misma ruta. Toca una para reservar.
+    </p>
+    <div class="alt-dates">
+      <a class="alt-date" href="results.html">
+        <b>27</b><span>mié may</span>
+        <span class="avail">✓ Disponible</span>
+      </a>
+      <a class="alt-date" href="results.html">
+        <b>29</b><span>vie may</span>
+        <span class="avail">✓ Disponible</span>
+      </a>
+      <a class="alt-date" href="results.html">
+        <b>30</b><span>sáb may</span>
+        <span class="avail">✓ Disponible</span>
+      </a>
+      <a class="alt-date" href="results.html">
+        <b>31</b><span>dom may</span>
+        <span class="avail">✓ Disponible</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Sugerencias -->
+  <div class="suggest">
+    <h3>💡 También puedes intentar</h3>
+    <div class="tips">
+      <div class="tip-row">
+        <div class="ic">🕐</div>
+        <div class="txt">
+          <b>Cambiar la hora del vuelo</b>
+          <span>Si tu vuelo llega muy temprano o muy tarde, prueba con otro horario. Tenemos más disponibilidad en horarios "diurnos" (8 am - 6 pm).</span>
+        </div>
+      </div>
+      <div class="tip-row">
+        <div class="ic">🚐</div>
+        <div class="txt">
+          <b>Probar otro tipo de vehículo</b>
+          <span>Si reservaste un Sedán Privado, prueba con Minivan. Suele haber más disponibilidad y a veces sale más conveniente.</span>
+        </div>
+      </div>
+      <div class="tip-row">
+        <div class="ic">📞</div>
+        <div class="txt">
+          <b>Hablar con nosotros directamente</b>
+          <span>Nuestro equipo puede buscar opciones que no aparecen en línea. Llámanos y resolvemos en 5 minutos.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Soporte -->
+  <div class="support-strip" id="support">
+    <p>¿Necesitas reservar para tu fecha exacta?</p>
+    <div class="btns">
+      <a href="tel:+17867236220" class="btn btn-sm">📞 Llamar</a>
+      <a href="https://wa.me/17867236220" class="btn btn-ghost btn-sm">💬 WhatsApp</a>
+      <a href="mailto:ebookings@aloftcancun.com" class="btn btn-ghost btn-sm">✉️ Email</a>
+    </div>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="error-payment.html">⚠️ Error pago</a>
+  <a href="no-availability.html" class="on">Sin disp.</a>
+  <a href="404.html">404</a>
+  <a href="preview.html">📱</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

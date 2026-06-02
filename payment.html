@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Resumen y pago — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+body{padding-bottom:96px}
+@media (min-width:768px){body{padding-bottom:0}}
+
+/* Tarjeta visual de pago (estilo Stripe Elements) */
+.card-input{
+  background:#fff;
+  border:2px solid #e6ebec;
+  border-radius:var(--radius-md);
+  padding:14px 16px;
+  font-size:var(--fs-base);
+  font-weight:600;
+  display:flex;align-items:center;gap:10px;
+  transition:.2s var(--ease);
+}
+.card-input:focus-within,.card-input.on{border-color:var(--brand-primary)}
+.card-input input{border:none;outline:none;flex:1;font:inherit;color:var(--brand-ink);background:transparent}
+.card-input input::placeholder{color:#9aa0b4;font-weight:500}
+.brands{display:flex;gap:4px;align-items:center}
+.brand{
+  width:32px;height:20px;border-radius:4px;
+  display:grid;place-items:center;
+  font-size:9px;font-weight:800;letter-spacing:-.02em;
+  background:#f1f5f9;color:#64748b;
+}
+.brand.visa{background:#1a1f71;color:#fff}
+.brand.mc{background:linear-gradient(90deg,#eb001b 50%,#f79e1b 50%);color:transparent}
+.brand.amex{background:#006fcf;color:#fff}
+
+.promo-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin:var(--space-3) 0}
+
+.payment-methods{display:flex;gap:8px;margin-bottom:var(--space-4);flex-wrap:wrap}
+.pm{
+  flex:1;min-width:120px;
+  border:2px solid #e6ebec;background:#fff;
+  border-radius:var(--radius-md);
+  padding:12px;text-align:center;
+  font-weight:700;font-size:var(--fs-sm);
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  cursor:pointer;transition:.2s var(--ease);
+}
+.pm.on{border-color:var(--brand-primary);background:var(--brand-bg);color:var(--brand-primary)}
+.pm:hover:not(.on){border-color:var(--brand-primary)}
+
+.policy-box{
+  background:var(--brand-bg);
+  border-radius:var(--radius-md);
+  padding:var(--space-4);
+  font-size:var(--fs-sm);color:var(--brand-muted);
+  line-height:1.6;margin-top:var(--space-3);
+}
+.policy-box b{color:var(--brand-ink)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="passenger.html" class="hburger" aria-label="Volver">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <span class="pill">🌐 ES</span>
+      <span class="pill">MXN $</span>
+    </div>
+  </div>
+</header>
+
+<div class="stepper">
+  <div class="container stepper-in">
+    <div class="step on"><span class="n">✓</span> Selecciona servicio</div>
+    <div class="step on"><span class="n">✓</span> Datos de pasajero</div>
+    <div class="step on"><span class="n">3</span> Resumen y pago</div>
+  </div>
+</div>
+
+<main class="container section" style="padding-top:var(--space-4)">
+
+  <!-- Resumen colapsable solo mobile -->
+  <details class="collapsible mobile-only" open>
+    <summary>
+      <span>📋 Total a pagar</span>
+      <span style="color:var(--brand-primary);font-weight:800;font-size:var(--fs-lg)">$1,280 MXN</span>
+    </summary>
+    <div class="body">
+      <div class="summary-line"><span>Sedán Privado (ida)</span><b>$640</b></div>
+      <div class="summary-line"><span>Sedán Privado (regreso)</span><b>$640</b></div>
+      <div class="summary-line"><span>Meet & Greet</span><b style="color:var(--ok)">Incluido</b></div>
+      <div class="summary-line"><span>Subtotal</span><b>$1,280</b></div>
+      <div class="summary-line"><span>IVA</span><b>Incluido</b></div>
+
+      <div class="promo-row" style="margin-top:12px">
+        <input class="inp" placeholder="Código de promoción" />
+        <button class="btn btn-ghost btn-sm">Aplicar</button>
+      </div>
+    </div>
+  </details>
+
+  <h1 style="font-size:var(--fs-2xl);margin-bottom:var(--space-4)">Resumen y pago</h1>
+
+  <div class="split">
+
+    <section>
+      <!-- Datos del pasajero (read-only) -->
+      <div class="panel">
+        <div class="panel-h" style="display:flex;justify-content:space-between;align-items:center">
+          <span>👤 Pasajero</span>
+          <a href="passenger.html" style="color:var(--brand-primary);font-size:var(--fs-xs);font-weight:700;text-transform:none;letter-spacing:0">Editar</a>
+        </div>
+        <p style="font-size:var(--fs-sm);line-height:1.6">
+          <b style="color:var(--brand-ink)">Luis Enríquez</b><br/>
+          beto@punk.solutions<br/>
+          +52 236 994 2511
+        </p>
+      </div>
+
+      <!-- Método de pago -->
+      <div class="panel">
+        <div class="panel-h">💳 Método de pago</div>
+
+        <div class="payment-methods">
+          <div class="pm on">💳 Tarjeta</div>
+          <div class="pm">🟧 OXXO Pay</div>
+          <div class="pm">🍎 Apple Pay</div>
+        </div>
+
+        <div class="secure-bar">
+          🔒 Tus datos están encriptados con Stripe · 3D Secure activado
+        </div>
+
+        <div class="frow">
+          <input class="inp" placeholder="Nombre del titular de la tarjeta" />
+        </div>
+        <div class="frow">
+          <div class="card-input">
+            <input placeholder="Número de tarjeta" />
+            <div class="brands">
+              <span class="brand visa">VISA</span>
+              <span class="brand mc">MC</span>
+              <span class="brand amex">AMEX</span>
+            </div>
+          </div>
+        </div>
+        <div class="frow cols-2">
+          <input class="inp" inputmode="numeric" placeholder="MM / AA" />
+          <input class="inp" inputmode="numeric" placeholder="CVC" />
+        </div>
+
+        <p style="font-size:var(--fs-xs);color:var(--brand-muted);margin-top:8px">
+          Tu tarjeta no será cargada hasta confirmar la reserva. Si tu vuelo se cancela, te reembolsamos automáticamente.
+        </p>
+      </div>
+
+      <!-- Política -->
+      <div class="policy-box">
+        <b>↩️ Política de cancelación</b><br/>
+        Podrás modificar o cancelar tu reservación sin cargo hasta 24 hrs antes del viaje.<br/><br/>
+        Al pagar aceptas nuestros <a href="terms.html" style="color:var(--brand-primary);text-decoration:underline">Términos de uso</a> y nuestra <a href="privacy.html" style="color:var(--brand-primary);text-decoration:underline">Política de privacidad</a>.
+      </div>
+
+      <!-- CTA desktop -->
+      <div class="desktop-only" style="margin-top:24px;text-align:right">
+        <a href="confirmation.html" class="btn btn-lg">🔒 Pagar $1,280 MXN →</a>
+      </div>
+    </section>
+
+    <!-- Sidebar desktop -->
+    <aside class="split-aside desktop-only">
+      <div class="summary">
+        <div class="summary-h">
+          <b>Resumen del pedido</b>
+          <p>Sedán Privado · 2 pasajeros</p>
+        </div>
+        <div class="summary-f">
+          <div class="summary-line"><span>jue 28 may · CUN → Aloft</span><b>$640</b></div>
+          <div class="summary-line"><span>vie 29 may · Aloft → CUN</span><b>$640</b></div>
+          <div class="summary-line"><span>Meet & Greet</span><b style="color:var(--ok)">Incluido</b></div>
+
+          <div class="promo-row" style="margin-top:16px">
+            <input class="inp" placeholder="Código de promoción" />
+            <button class="btn btn-ghost btn-sm">Aplicar</button>
+          </div>
+
+          <div class="summary-total"><span>Total</span><span>$1,280 MXN</span></div>
+          <p style="font-size:var(--fs-xs);color:var(--brand-muted);margin-top:12px;line-height:1.5">
+            ↩️ Cancelación gratuita hasta 24 hrs antes.<br/>
+            🔒 Pago seguro con Stripe.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- CTA STICKY MOBILE -->
+<div class="cta-sticky">
+  <div class="cta-info">
+    <b>$1,280 <span style="font-size:var(--fs-xs);color:var(--brand-muted)">MXN</span></b>
+    <span>🔒 Pago seguro · Stripe</span>
+  </div>
+  <a href="confirmation.html" class="btn">Pagar →</a>
+</div>
+
+<footer class="foot desktop-only">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún</div>
+  </div>
+</footer>
+
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html" class="on">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="preview.html">📱 Preview</a>
+  <a href="design-system.html">📐 DS</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+/* Payment method toggle */
+document.querySelectorAll('.pm').forEach(p=>p.onclick=()=>{
+  document.querySelectorAll('.pm').forEach(x=>x.classList.remove('on'));
+  p.classList.add('on');
+});
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

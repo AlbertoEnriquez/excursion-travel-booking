@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Preview del email de confirmación · Aloft Cancún</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#e6ecef;color:#0c2e31;
+  min-height:100vh;padding:20px 12px 60px;
+}
+
+/* Mock chrome del cliente de correo */
+.mail-app{
+  max-width:760px;margin:0 auto;
+  background:#fff;border-radius:14px;
+  box-shadow:0 30px 60px rgba(0,0,0,.15);
+  overflow:hidden;
+}
+.mail-bar{
+  background:#f5f6f7;border-bottom:1px solid #e5e7eb;
+  padding:12px 16px;
+  display:flex;align-items:center;gap:10px;font-size:13px;color:#475569;
+}
+.mail-bar .dots{display:flex;gap:6px}
+.mail-bar .dots i{width:10px;height:10px;border-radius:50%;background:#ddd}
+.mail-bar .dots i:nth-child(1){background:#ff5f57}.mail-bar .dots i:nth-child(2){background:#febc2e}.mail-bar .dots i:nth-child(3){background:#28c840}
+.mail-bar .tag{
+  background:#fff;border:1px solid #e5e7eb;border-radius:8px;
+  padding:4px 10px;font-weight:600;color:#64748b;
+}
+
+.mail-head{
+  padding:20px 24px;border-bottom:1px solid #eef1f3;
+}
+.mail-subject{font-size:22px;font-weight:800;letter-spacing:-.01em;color:#0c2e31;margin-bottom:6px;line-height:1.25}
+.mail-from{display:flex;gap:12px;align-items:center;font-size:14px}
+.mail-from .av{
+  width:40px;height:40px;border-radius:50%;
+  background:#0e5c66;color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:14px;
+  font-family:'Outfit',sans-serif;
+  flex:0 0 auto;
+}
+.mail-from .who{flex:1;min-width:0}
+.mail-from .who b{color:#0c2e31;font-weight:700;display:block}
+.mail-from .who span{color:#64748b;font-size:13px}
+.mail-from .when{color:#94a3b8;font-size:13px;flex:0 0 auto}
+
+/* ============================================================
+   EMAIL BODY — diseño real del correo (en producción será HTML inline)
+   ============================================================ */
+.email-wrap{padding:0;background:#f1f6f6}
+.email{
+  max-width:600px;margin:0 auto;
+  background:#fff;
+}
+
+.eh{
+  background:linear-gradient(120deg,#062a2e 0%,#0e5c66 55%,#1a8a93 100%);
+  color:#fff;text-align:center;padding:36px 28px 30px;
+}
+.eh .logo{
+  font-family:'Outfit',sans-serif;font-weight:800;font-size:28px;
+  letter-spacing:-.04em;margin-bottom:4px;
+}
+.eh .sub{font-size:11px;letter-spacing:.3em;opacity:.7;font-weight:600}
+
+/* Hero éxito */
+.es{padding:36px 28px;text-align:center;border-bottom:1px solid #eef1f3}
+.es .check{
+  width:64px;height:64px;border-radius:50%;
+  background:#16a34a;color:#fff;
+  display:inline-grid;place-items:center;
+  font-size:32px;margin-bottom:16px;
+}
+.es h1{font-family:'Outfit',sans-serif;font-size:28px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.es p{font-size:15px;color:#475569;line-height:1.5}
+.es p b{color:#0c2e31}
+
+/* Code box */
+.codebox{
+  background:#f1f6f6;border-radius:12px;
+  padding:16px;margin:24px 0 8px;
+}
+.codebox .lbl{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#5e7b7e;margin-bottom:4px}
+.codebox .code{font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;letter-spacing:.04em;color:#0c2e31}
+
+/* CTA buttons */
+.cta{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.btn-prim{
+  background:#0e5c66;color:#fff;text-decoration:none;
+  padding:13px 22px;border-radius:12px;
+  font-weight:700;font-size:14px;display:inline-block;
+}
+.btn-ghost{
+  background:#f1f6f6;color:#0c2e31;text-decoration:none;
+  padding:13px 22px;border-radius:12px;
+  font-weight:700;font-size:14px;display:inline-block;
+}
+
+/* Section */
+.sec{padding:28px 28px 0}
+.sec:last-child{padding-bottom:28px}
+.sec h2{font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:#0c2e31;margin-bottom:14px;letter-spacing:-.01em}
+
+/* Trip row */
+.leg{
+  display:flex;gap:12px;padding:14px 0;align-items:center;
+}
+.leg + .leg{border-top:1px dashed #eef1f3}
+.leg .ic{
+  width:40px;height:40px;border-radius:50%;
+  background:#0e5c66;color:#fff;
+  display:grid;place-items:center;font-size:18px;
+  flex:0 0 auto;
+}
+.leg .ic.ret{background:#ff7a4d}
+.leg .meta{flex:1;min-width:0}
+.leg .meta b{display:block;font-weight:800;color:#0c2e31;font-size:14px}
+.leg .meta span{display:block;color:#5e7b7e;font-size:13px;line-height:1.5;margin-top:2px}
+.leg .time{
+  font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:#0c2e31;
+  text-align:right;flex:0 0 auto;
+}
+.leg .time small{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:#5e7b7e;font-weight:600;margin-top:1px}
+
+/* Steps */
+.steps{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.step{display:flex;gap:12px;align-items:flex-start}
+.step .n{
+  flex:0 0 28px;height:28px;border-radius:50%;
+  background:#0e5c66;color:#fff;
+  display:grid;place-items:center;font-weight:800;font-size:12px;font-family:'Outfit',sans-serif;
+}
+.step .t{flex:1;font-size:14px;line-height:1.55}
+.step .t b{color:#0c2e31;font-weight:700;display:block;margin-bottom:2px}
+.step .t span{color:#5e7b7e}
+
+/* Meet & greet */
+.mg{
+  background:#fff7f0;border-left:4px solid #ff7a4d;
+  padding:18px 20px;border-radius:8px;
+  margin:8px 0 4px;
+}
+.mg b{display:block;font-size:14px;font-weight:800;color:#0c2e31;margin-bottom:6px}
+.mg p{font-size:13px;color:#7d4321;line-height:1.55}
+.mg p b{display:inline;font-size:13px;margin:0;color:#0c2e31}
+
+/* Support */
+.supp{
+  text-align:center;padding:24px 28px;
+  background:#f1f6f6;
+  border-top:1px solid #eef1f3;
+}
+.supp p{font-size:14px;color:#5e7b7e;margin-bottom:12px}
+.supp .links{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.supp a{
+  color:#0e5c66;text-decoration:none;font-weight:700;font-size:13px;
+  background:#fff;padding:8px 14px;border-radius:999px;
+}
+
+/* Footer */
+.ef{
+  background:#0c2e31;color:#94b1b3;
+  text-align:center;padding:24px 28px;
+  font-size:12px;line-height:1.6;
+}
+.ef a{color:#7cffd3;text-decoration:none;font-weight:600}
+.ef .legal{font-size:10px;opacity:.6;margin-top:10px;line-height:1.5}
+
+/* Top return link */
+.top-link{
+  max-width:760px;margin:0 auto 14px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.top-link a{
+  color:#0e5c66;font-size:13px;font-weight:700;text-decoration:none;
+  background:#fff;padding:8px 14px;border-radius:999px;
+}
+.top-link a:hover{background:#0e5c66;color:#fff}
+.top-link .label{font-size:12px;color:#475569;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+</style>
+</head>
+<body>
+
+<div class="top-link">
+  <span class="label">📧 Preview · Email transaccional</span>
+  <a href="index.html">← Volver al prototipo</a>
+</div>
+
+<div class="mail-app">
+  <!-- Mock chrome -->
+  <div class="mail-bar">
+    <div class="dots"><i></i><i></i><i></i></div>
+    <span style="flex:1">Apple Mail · Recibidos</span>
+    <span class="tag">📥 Recibidos</span>
+  </div>
+
+  <!-- Mail header -->
+  <div class="mail-head">
+    <div class="mail-subject">✅ Reserva confirmada · ALF-2X8K-7C · Tu transporte para el 28 may</div>
+    <div class="mail-from">
+      <div class="av">A</div>
+      <div class="who">
+        <b>Aloft Cancún</b>
+        <span>ebookings@aloftcancun.com · para Luis Enríquez</span>
+      </div>
+      <div class="when">jue 27 may, 21:42</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       EMAIL BODY (este es el HTML que se envía al cliente)
+       ============================================================ -->
+  <div class="email-wrap">
+    <div class="email">
+
+      <!-- Header con marca -->
+      <div class="eh">
+        <div class="logo">aloft</div>
+        <div class="sub">C A N C Ú N</div>
+      </div>
+
+      <!-- Hero éxito -->
+      <div class="es">
+        <div class="check">✓</div>
+        <h1>¡Reserva confirmada!</h1>
+        <p>Hola <b>Luis</b>, tu transporte para el <b>jueves 28 de mayo</b> está listo. Te esperamos en el aeropuerto.</p>
+
+        <div class="codebox">
+          <div class="lbl">Código de reserva</div>
+          <div class="code">ALF-2X8K-7C</div>
+        </div>
+
+        <div class="cta">
+          <a class="btn-prim" href="my-reservation.html">Ver mi reserva</a>
+          <a class="btn-ghost" href="voucher.html">📄 Descargar voucher PDF</a>
+        </div>
+      </div>
+
+      <!-- Trip details -->
+      <div class="sec">
+        <h2>🛫 Tu viaje</h2>
+        <div class="leg">
+          <div class="ic">✈️</div>
+          <div class="meta">
+            <b>Llegada · jueves 28 may</b>
+            <span>Cancún Intl (CUN) → Aloft Cancún</span>
+            <span>Vuelo AR 1370 · 06:30 hrs</span>
+          </div>
+          <div class="time">07:30<small>pickup</small></div>
+        </div>
+        <div class="leg">
+          <div class="ic ret">🏨</div>
+          <div class="meta">
+            <b>Regreso · viernes 29 may</b>
+            <span>Aloft Cancún → Cancún Intl (CUN)</span>
+            <span>Vuelo AD 7381 · 13:00 hrs</span>
+          </div>
+          <div class="time">09:14<small>pickup</small></div>
+        </div>
+      </div>
+
+      <!-- Next steps -->
+      <div class="sec">
+        <h2>📋 ¿Qué sigue?</h2>
+        <div class="steps">
+          <div class="step">
+            <div class="n">1</div>
+            <div class="t"><b>Monitoreamos tu vuelo en tiempo real</b><span>Si tu vuelo se retrasa o adelanta, ajustamos automáticamente la hora de pickup.</span></div>
+          </div>
+          <div class="step">
+            <div class="n">2</div>
+            <div class="t"><b>30 min antes te enviamos un SMS</b><span>Con el nombre del chofer, foto, marca y placa del vehículo.</span></div>
+          </div>
+          <div class="step">
+            <div class="n">3</div>
+            <div class="t"><b>Encuéntrate con tu chofer</b><span>Saliendo de aduana, busca el cartel con tu nombre.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meet & Greet -->
+      <div class="sec">
+        <div class="mg">
+          <b>😊 Meet & Greet incluido</b>
+          <p>Saliendo de aduana del Aeropuerto Internacional de Cancún, busca a tu chofer con un cartel que dice: <b>"Luis Enríquez · Aloft Cancún"</b>. Si no lo encuentras, llámanos al <b>+1 786 723 6220</b>.</p>
+        </div>
+      </div>
+
+      <!-- Support -->
+      <div class="supp">
+        <p>¿Necesitas modificar o cancelar?<br/>Puedes hacerlo gratis hasta 24 horas antes del viaje.</p>
+        <div class="links">
+          <a href="tel:+17867236220">📞 Llamar</a>
+          <a href="https://wa.me/17867236220">💬 WhatsApp</a>
+          <a href="mailto:ebookings@aloftcancun.com">✉️ Email</a>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="ef">
+        <div>Aloft Cancún · Punta Nizuc – Cancún, Punta Cancun, Zona Hotelera</div>
+        <div style="margin-top:6px">
+          <a href="#">Términos</a> · <a href="#">Privacidad</a> · <a href="#">Facturación CFDI</a>
+        </div>
+        <div class="legal">
+          Este email es una confirmación automática de tu reserva. Servicio de transporte operado por Excursion Travel.<br/>
+          Si no realizaste esta reserva, contáctanos de inmediato al +1 786 723 6220.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

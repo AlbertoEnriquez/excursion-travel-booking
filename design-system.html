@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Design System · Booking Engine multi-tenant · Punk Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+/* =============================================================
+   CAPA 1 — TOKENS DEL SISTEMA  (constantes en todos los tenants)
+   ============================================================= */
+:root{
+  --radius-xs:8px; --radius-sm:12px; --radius-md:16px; --radius-lg:22px; --radius-pill:999px;
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:24px; --space-6:32px; --space-7:48px; --space-8:64px;
+  --shadow-sm:0 1px 3px rgba(16,24,40,.08), 0 1px 2px rgba(16,24,40,.04);
+  --shadow-md:0 8px 24px rgba(16,24,40,.10);
+  --shadow-lg:0 20px 48px rgba(16,24,40,.16);
+  --shadow-glow:0 12px 32px var(--brand-primary-glow);
+  --fs-xs:12px; --fs-sm:14px; --fs-base:16px; --fs-lg:18px; --fs-xl:22px; --fs-2xl:28px; --fs-3xl:38px; --fs-4xl:52px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --ok:#16a34a; --warn:#f59e0b; --err:#e11d48; --ok-bg:#ecfdf3; --err-bg:#fef2f2;
+}
+
+/* =============================================================
+   CAPA 2 — TOKENS POR TENANT  (lo único que cambia por hotel)
+   ============================================================= */
+[data-tenant="aloft"]{
+  --brand-primary:#0e5c66; --brand-primary-dark:#093f47;
+  --brand-primary-glow:rgba(14,92,102,.32);
+  --brand-accent:#ff7a4d;
+  --brand-ink:#0c2e31; --brand-muted:#5e7b7e;
+  --brand-bg:#f1f6f6; --brand-surface:#ffffff;
+  --brand-hero: linear-gradient(120deg,#062a2e 0%,#0e5c66 55%,#1a8a93 100%);
+  --font-display:'Outfit',sans-serif; --font-body:'Plus Jakarta Sans',sans-serif;
+}
+/* =============================================================
+   ESTRUCTURA DE LA DOCS
+   ============================================================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--brand-bg);color:var(--brand-ink);-webkit-font-smoothing:antialiased;transition:background .4s var(--ease)}
+h1,h2,h3,h4,.display{font-family:var(--font-display)}
+code,kbd,pre{font-family:'JetBrains Mono',monospace}
+a{color:var(--brand-primary);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.hdr{position:sticky;top:0;z-index:40;background:rgba(255,255,255,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(16,24,40,.06)}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;height:64px;padding:0 var(--space-5)}
+.hdr-brand{display:flex;align-items:center;gap:14px}
+.hdr-brand .tag{background:var(--brand-primary);color:#fff;font-weight:800;font-size:var(--fs-xs);padding:4px 10px;border-radius:var(--radius-pill);letter-spacing:.04em}
+.hdr-brand b{font-family:var(--font-display);font-size:var(--fs-lg);font-weight:800;color:var(--brand-ink)}
+.hdr-actions{display:flex;align-items:center;gap:8px}
+.hdr-actions a{font-size:var(--fs-sm);font-weight:700;padding:8px 14px;border-radius:var(--radius-pill);background:var(--brand-bg);color:var(--brand-ink)}
+.hdr-actions a:hover{text-decoration:none;background:var(--brand-primary);color:#fff}
+
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 64px)}
+.nav{position:sticky;top:64px;height:calc(100vh - 64px);overflow-y:auto;padding:var(--space-6) var(--space-5);border-right:1px solid rgba(16,24,40,.06);background:var(--brand-surface)}
+.nav .ngroup{font-size:var(--fs-xs);font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--brand-muted);margin:var(--space-5) 0 var(--space-2);padding:0 8px}
+.nav .ngroup:first-child{margin-top:0}
+.nav a{display:block;padding:8px 12px;border-radius:var(--radius-sm);font-size:var(--fs-sm);font-weight:600;color:var(--brand-ink);margin-bottom:2px}
+.nav a:hover{background:var(--brand-bg);text-decoration:none}
+
+.main{padding:var(--space-7) var(--space-7);max-width:980px}
+.kicker{font-size:var(--fs-xs);font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:var(--brand-primary);margin-bottom:8px}
+h1.title{font-size:var(--fs-4xl);font-weight:800;letter-spacing:-.02em;line-height:1.05;margin-bottom:var(--space-3)}
+.lead{font-size:var(--fs-lg);color:var(--brand-muted);max-width:680px;line-height:1.6}
+
+section.docs{padding:var(--space-8) 0;border-top:1px solid rgba(16,24,40,.08);margin-top:var(--space-6)}
+section.docs:first-of-type{border-top:none;margin-top:0;padding-top:var(--space-7)}
+section.docs h2{font-size:var(--fs-3xl);font-weight:800;letter-spacing:-.02em;margin-bottom:var(--space-3)}
+section.docs h3{font-size:var(--fs-xl);font-weight:800;margin:var(--space-6) 0 var(--space-3)}
+section.docs p{color:var(--brand-muted);line-height:1.65;margin-bottom:var(--space-3);max-width:680px}
+section.docs ul{padding-left:20px;color:var(--brand-muted);line-height:1.7;margin-bottom:var(--space-3)}
+section.docs ul li{margin-bottom:4px}
+
+.demo{background:var(--brand-surface);border:1px solid rgba(16,24,40,.08);border-radius:var(--radius-lg);padding:var(--space-6);margin:var(--space-4) 0 var(--space-3);position:relative}
+.demo .label{position:absolute;top:-10px;left:var(--space-5);background:var(--brand-bg);color:var(--brand-muted);font-size:var(--fs-xs);font-weight:800;padding:2px 10px;border-radius:var(--radius-pill);letter-spacing:.06em;text-transform:uppercase}
+.code{background:#0c1322;color:#cdd6f4;border-radius:var(--radius-md);padding:var(--space-4) var(--space-5);font-size:13px;line-height:1.7;overflow-x:auto;margin:var(--space-3) 0;font-family:'JetBrains Mono',monospace}
+.code .k{color:#f5a97f}.code .s{color:#a6da95}.code .c{color:#6e7390;font-style:italic}.code .v{color:#8aadf4}.code .p{color:#cad3f5}
+
+/* Color swatch */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:var(--space-3)}
+.sw{border-radius:var(--radius-md);overflow:hidden;border:1px solid rgba(16,24,40,.08);background:var(--brand-surface)}
+.sw .chip{height:80px}
+.sw .meta{padding:10px 12px;font-size:var(--fs-xs)}
+.sw .meta b{display:block;font-size:var(--fs-sm);font-weight:700;color:var(--brand-ink);margin-bottom:2px}
+.sw .meta span{color:var(--brand-muted);font-family:'JetBrains Mono',monospace}
+
+/* Type scale */
+.tscale .row{display:grid;grid-template-columns:80px 80px 1fr;gap:var(--space-4);padding:var(--space-3) 0;border-bottom:1px dashed rgba(16,24,40,.08);align-items:baseline}
+.tscale .row:last-child{border:none}
+.tscale .row code{font-size:var(--fs-xs);color:var(--brand-muted)}
+.tscale .row b{font-size:var(--fs-sm);font-weight:700;color:var(--brand-ink)}
+
+/* Spacing scale */
+.spaces{display:flex;flex-direction:column;gap:8px}
+.sp{display:flex;align-items:center;gap:var(--space-4)}
+.sp .bar{height:14px;background:var(--brand-primary);border-radius:4px;opacity:.85}
+.sp code{font-family:'JetBrains Mono',monospace;font-size:var(--fs-sm);color:var(--brand-muted);min-width:160px}
+
+/* Radius scale */
+.radii{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--space-4)}
+.rd{text-align:center}
+.rd .box{height:80px;background:var(--brand-primary);margin-bottom:8px;opacity:.9}
+.rd code{font-size:var(--fs-xs);color:var(--brand-muted);font-family:'JetBrains Mono',monospace}
+
+/* Shadows */
+.shadows{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-5)}
+.sh{background:#fff;height:120px;border-radius:var(--radius-md);display:grid;place-items:center;font-weight:700;color:var(--brand-muted);font-size:var(--fs-sm)}
+.sh-sm{box-shadow:var(--shadow-sm)}
+.sh-md{box-shadow:var(--shadow-md)}
+.sh-lg{box-shadow:var(--shadow-lg)}
+
+/* Atom previews */
+.row-of{display:flex;gap:var(--space-3);flex-wrap:wrap;align-items:center}
+.btn{background:var(--brand-primary);color:#fff;font-weight:700;padding:14px 24px;border-radius:var(--radius-md);font-size:var(--fs-base);box-shadow:var(--shadow-glow);transition:.2s var(--ease);border:none;cursor:pointer;font-family:inherit}
+.btn:hover{background:var(--brand-primary-dark);transform:translateY(-2px)}
+.btn-sm{padding:10px 18px;font-size:var(--fs-sm)}
+.btn-lg{padding:18px 32px;font-size:var(--fs-lg)}
+.btn-ghost{background:var(--brand-bg);color:var(--brand-ink);box-shadow:none}
+.btn-outline{background:transparent;color:var(--brand-primary);box-shadow:none;border:2px solid var(--brand-primary);padding:12px 22px}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+
+.field{background:var(--brand-bg);border:2px solid transparent;border-radius:var(--radius-md);padding:12px 16px;transition:.2s var(--ease);max-width:320px}
+.field:focus-within{border-color:var(--brand-primary);background:var(--brand-surface)}
+.field label{display:block;font-size:var(--fs-xs);font-weight:700;color:var(--brand-muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.field input{border:none;background:transparent;font-size:var(--fs-base);font-weight:600;color:var(--brand-ink);width:100%;outline:none;font-family:inherit}
+.field.err{border-color:var(--err);background:var(--err-bg)}
+.field.err .errmsg{display:block;color:var(--err);font-size:var(--fs-xs);font-weight:700;margin-top:6px}
+
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--radius-pill);font-size:var(--fs-xs);font-weight:800;letter-spacing:.03em}
+.badge-accent{background:var(--brand-accent);color:#fff}
+.badge-ok{background:var(--ok-bg);color:var(--ok)}
+.badge-warn{background:#fff7e6;color:var(--warn)}
+.badge-err{background:var(--err-bg);color:var(--err)}
+.badge-soft{background:var(--brand-bg);color:var(--brand-muted)}
+
+.steplet{display:flex;align-items:center;gap:var(--space-5);background:#15123b;color:#fff;padding:var(--space-3) var(--space-5);border-radius:var(--radius-md)}
+.steplet .stp{display:flex;align-items:center;gap:8px;font-weight:700;font-size:var(--fs-sm);opacity:.45}
+.steplet .stp.on{opacity:1}
+.steplet .stp .n{width:24px;height:24px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center;font-size:var(--fs-xs)}
+.steplet .stp.on .n{background:var(--brand-primary);border-color:var(--brand-primary)}
+
+/* Token table */
+table.tk{width:100%;border-collapse:collapse;margin:var(--space-3) 0;font-size:var(--fs-sm)}
+table.tk th,table.tk td{text-align:left;padding:10px 12px;border-bottom:1px solid rgba(16,24,40,.06)}
+table.tk th{font-weight:800;color:var(--brand-ink);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em}
+table.tk code{font-family:'JetBrains Mono',monospace;color:var(--brand-primary);font-size:12px}
+table.tk td span.chip{display:inline-block;width:16px;height:16px;border-radius:4px;vertical-align:middle;margin-right:6px;border:1px solid rgba(16,24,40,.1)}
+
+/* Vehicle card mini */
+.vcard{background:var(--brand-surface);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:var(--space-5);display:grid;grid-template-columns:120px 1fr auto;gap:var(--space-5);align-items:center;border:2px solid transparent}
+.vcard.feat{border-color:var(--brand-primary)}
+.vimg{height:72px;background:linear-gradient(135deg,var(--brand-bg),#fff);border-radius:var(--radius-md);display:grid;place-items:center;font-size:36px}
+.vmeta h4{font-size:var(--fs-lg);font-weight:800}
+.vmeta .feats{display:flex;gap:var(--space-3);margin-top:6px;color:var(--brand-muted);font-size:var(--fs-sm);font-weight:600}
+.vprice{text-align:right}
+.vprice b{font-size:var(--fs-xl);font-weight:800;font-family:var(--font-display);color:var(--brand-ink)}
+.vprice span{display:block;color:var(--brand-muted);font-size:var(--fs-xs);font-weight:700}
+
+footer.foot{padding:var(--space-7) var(--space-7);color:var(--brand-muted);font-size:var(--fs-sm);border-top:1px solid rgba(16,24,40,.06)}
+
+@media(max-width:880px){
+  .shell{grid-template-columns:1fr}
+  .nav{display:none}
+  .main{padding:var(--space-5) var(--space-4)}
+  h1.title{font-size:var(--fs-3xl)}
+  .vcard{grid-template-columns:1fr;text-align:center}
+  .radii{grid-template-columns:repeat(2,1fr)}
+  .shadows{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="hdr-brand">
+      <span class="tag">DS v0.1</span>
+      <b>Booking Engine — Design System</b>
+    </div>
+    <div class="hdr-actions">
+      <a href="index.html">← Prototipo</a>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="nav">
+    <div class="ngroup">Foundation</div>
+    <a href="#intro">Visión general</a>
+    <a href="#multitenant">Arquitectura multi-tenant</a>
+    <a href="#tokens-sistema">Tokens del sistema</a>
+    <a href="#tokens-tenant">Tokens por tenant</a>
+
+    <div class="ngroup">Estilo</div>
+    <a href="#colors">Color</a>
+    <a href="#type">Tipografía</a>
+    <a href="#space">Espaciado</a>
+    <a href="#radii">Radios</a>
+    <a href="#shadows">Sombras</a>
+
+    <div class="ngroup">Componentes</div>
+    <a href="#buttons">Botones</a>
+    <a href="#inputs">Inputs</a>
+    <a href="#badges">Badges & pills</a>
+    <a href="#stepper">Stepper</a>
+    <a href="#cards">Tarjeta de vehículo</a>
+
+    <div class="ngroup">Operación</div>
+    <a href="#add-tenant">Agregar nuevo tenant</a>
+    <a href="#rules">Reglas y do/don't</a>
+  </aside>
+
+  <main class="main">
+    <div class="kicker">Sistema de diseño</div>
+    <h1 class="title">Sistema de diseño<br/>Aloft Cancún.</h1>
+    <p class="lead">
+      Este documento define los tokens, componentes y reglas que sostienen el sitio de Aloft Cancún.
+      La arquitectura queda preparada para escalar a otros hoteles de Excursion Travel en el futuro, sin tocar los componentes.
+    </p>
+
+    <section class="docs" id="intro">
+      <h2>Visión general</h2>
+      <p>El sistema separa cada decisión visual en <b>dos capas</b>:</p>
+      <ul>
+        <li><b>Tokens del sistema</b> — radios, espaciados, sombras, tamaños tipográficos. <i>Iguales para todos los tenants.</i></li>
+        <li><b>Tokens por tenant</b> — colores, fuentes, logo, hero. <i>Distintos para cada hotel.</i></li>
+      </ul>
+      <p>Los componentes (botones, inputs, tarjetas) <b>solo consumen tokens</b> — nunca colores literales. Eso hace que toda la marca se re-pinte cambiando un atributo en la raíz del documento.</p>
+    </section>
+
+    <section class="docs" id="multitenant">
+      <h2>Arquitectura multi-tenant</h2>
+      <p>El tenant se resuelve por dominio. Una vez resuelto, se aplica como atributo en <code>&lt;html&gt;</code> y el navegador re-pinta toda la página leyendo los tokens correspondientes.</p>
+      <div class="code">
+<span class="c">// 1. Middleware resuelve el tenant por dominio</span>
+reservas.aloftcancun.com  <span class="k">→</span>  tenant <span class="k">=</span> <span class="s">"aloft"</span>
+
+<span class="c">// 2. Next.js inyecta el atributo</span>
+<span class="p">&lt;</span><span class="k">html</span> <span class="v">data-tenant</span><span class="k">=</span><span class="s">"aloft"</span><span class="p">&gt;</span>
+
+<span class="c">// 3. CSS lee los tokens correspondientes</span>
+[<span class="v">data-tenant</span><span class="k">=</span><span class="s">"aloft"</span>] {
+  <span class="v">--brand-primary</span>: <span class="s">#0e5c66</span>;
+  <span class="v">--font-display</span>: <span class="s">'Outfit'</span>;
+  ...
+}
+      </div>
+      <p>La lógica de negocio (tarifas, reservas, pagos) está aislada por <code>tenant_id</code> en PostgreSQL con Row-Level Security. Un tenant nunca ve datos de otro.</p>
+    </section>
+
+    <section class="docs" id="tokens-sistema">
+      <h2>Tokens del sistema</h2>
+      <p>Constantes en todos los tenants. Garantizan consistencia estructural.</p>
+      <table class="tk">
+        <tr><th>Token</th><th>Valor</th><th>Uso</th></tr>
+        <tr><td><code>--radius-sm</code></td><td>12px</td><td>Inputs, badges, chips</td></tr>
+        <tr><td><code>--radius-md</code></td><td>16px</td><td>Botones, campos</td></tr>
+        <tr><td><code>--radius-lg</code></td><td>22px</td><td>Tarjetas, paneles</td></tr>
+        <tr><td><code>--radius-pill</code></td><td>999px</td><td>Pills, badges</td></tr>
+        <tr><td><code>--space-1</code> → <code>--space-8</code></td><td>4 · 8 · 12 · 16 · 24 · 32 · 48 · 64</td><td>Escala de espaciado</td></tr>
+        <tr><td><code>--fs-xs</code> → <code>--fs-4xl</code></td><td>12 · 14 · 16 · 18 · 22 · 28 · 38 · 52</td><td>Escala tipográfica</td></tr>
+        <tr><td><code>--shadow-sm/md/lg</code></td><td>3 niveles de elevación</td><td>Tarjetas, modales, hover</td></tr>
+        <tr><td><code>--ease</code></td><td>cubic-bezier(.4,0,.2,1)</td><td>Curva estándar de transición</td></tr>
+        <tr><td><code>--ok / --warn / --err</code></td><td>Verde · Ámbar · Rojo</td><td>Estados semánticos universales</td></tr>
+      </table>
+    </section>
+
+    <section class="docs" id="tokens-tenant">
+      <h2>Tokens por tenant</h2>
+      <p>Lo único que cambia entre hoteles. Cada hotel define este bloque.</p>
+      <table class="tk">
+        <tr><th>Token</th><th>Aloft (actual)</th><th>Uso</th></tr>
+        <tr><td><code>--brand-primary</code></td><td><span class="chip" style="background:#0e5c66"></span>#0e5c66</td><td>Color principal de marca</td></tr>
+        <tr><td><code>--brand-primary-dark</code></td><td><span class="chip" style="background:#093f47"></span>#093f47</td><td>Estado hover / activo</td></tr>
+        <tr><td><code>--brand-accent</code></td><td><span class="chip" style="background:#ff7a4d"></span>#ff7a4d</td><td>Acento secundario (badges, alertas)</td></tr>
+        <tr><td><code>--brand-ink</code></td><td><span class="chip" style="background:#0c2e31"></span>#0c2e31</td><td>Color de texto principal</td></tr>
+        <tr><td><code>--brand-muted</code></td><td><span class="chip" style="background:#5e7b7e"></span>#5e7b7e</td><td>Texto secundario</td></tr>
+        <tr><td><code>--brand-bg</code></td><td><span class="chip" style="background:#f1f6f6"></span>#f1f6f6</td><td>Fondo general</td></tr>
+        <tr><td><code>--brand-surface</code></td><td><span class="chip" style="background:#fff;border:1px solid #ccc"></span>#ffffff</td><td>Superficies elevadas</td></tr>
+        <tr><td><code>--brand-hero</code></td><td>linear-gradient(...)</td><td>Hero del sitio público</td></tr>
+        <tr><td><code>--font-display</code></td><td>'Outfit'</td><td>Títulos y números</td></tr>
+        <tr><td><code>--font-body</code></td><td>'Plus Jakarta Sans'</td><td>Texto corrido</td></tr>
+        <tr><td><code>--logo-asset</code></td><td>aloft-logo.png</td><td>Logo (imagen)</td></tr>
+      </table>
+    </section>
+
+    <section class="docs" id="colors">
+      <h2>Color</h2>
+      <p>Paleta semántica del tenant Aloft.</p>
+      <div class="demo"><span class="label">Paleta de marca</span>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:var(--brand-primary)"></div><div class="meta"><b>Primary</b><span>--brand-primary</span></div></div>
+          <div class="sw"><div class="chip" style="background:var(--brand-primary-dark)"></div><div class="meta"><b>Primary dark</b><span>--brand-primary-dark</span></div></div>
+          <div class="sw"><div class="chip" style="background:var(--brand-accent)"></div><div class="meta"><b>Accent</b><span>--brand-accent</span></div></div>
+          <div class="sw"><div class="chip" style="background:var(--brand-ink)"></div><div class="meta"><b>Ink</b><span>--brand-ink</span></div></div>
+          <div class="sw"><div class="chip" style="background:var(--brand-muted)"></div><div class="meta"><b>Muted</b><span>--brand-muted</span></div></div>
+          <div class="sw"><div class="chip" style="background:var(--brand-bg);border-bottom:1px solid rgba(0,0,0,.06)"></div><div class="meta"><b>Background</b><span>--brand-bg</span></div></div>
+        </div>
+      </div>
+      <div class="demo"><span class="label">Estados semánticos</span>
+        <div class="swatches">
+          <div class="sw"><div class="chip" style="background:#16a34a"></div><div class="meta"><b>Success</b><span>--ok</span></div></div>
+          <div class="sw"><div class="chip" style="background:#f59e0b"></div><div class="meta"><b>Warning</b><span>--warn</span></div></div>
+          <div class="sw"><div class="chip" style="background:#e11d48"></div><div class="meta"><b>Error</b><span>--err</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="type">
+      <h2>Tipografía</h2>
+      <p>Dos familias: <b>display</b> para títulos y precios, <b>body</b> para texto corrido. Ambas son tokens — un tenant nuevo puede cambiarlas en una línea.</p>
+      <div class="demo"><span class="label">Escala</span>
+        <div class="tscale">
+          <div class="row"><code>--fs-4xl</code><b>52</b><span class="display" style="font-size:52px;font-weight:800;letter-spacing:-.02em">Hero principal</span></div>
+          <div class="row"><code>--fs-3xl</code><b>38</b><span class="display" style="font-size:38px;font-weight:800;letter-spacing:-.02em">Título de sección</span></div>
+          <div class="row"><code>--fs-2xl</code><b>28</b><span class="display" style="font-size:28px;font-weight:800">Precio en tarjeta</span></div>
+          <div class="row"><code>--fs-xl</code><b>22</b><span style="font-size:22px;font-weight:800">Título de tarjeta</span></div>
+          <div class="row"><code>--fs-lg</code><b>18</b><span style="font-size:18px">Lead / introducción</span></div>
+          <div class="row"><code>--fs-base</code><b>16</b><span style="font-size:16px">Cuerpo estándar</span></div>
+          <div class="row"><code>--fs-sm</code><b>14</b><span style="font-size:14px;color:var(--brand-muted)">Texto secundario</span></div>
+          <div class="row"><code>--fs-xs</code><b>12</b><span style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--brand-muted)">Etiquetas / kicker</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="space">
+      <h2>Escala de espaciado</h2>
+      <p>Múltiplos de 4px. Todos los márgenes y paddings deben usar la escala. <b>No improvisar valores fuera de tokens.</b></p>
+      <div class="demo"><span class="label">Spacing tokens</span>
+        <div class="spaces">
+          <div class="sp"><code>--space-1 · 4px</code><div class="bar" style="width:4px"></div></div>
+          <div class="sp"><code>--space-2 · 8px</code><div class="bar" style="width:8px"></div></div>
+          <div class="sp"><code>--space-3 · 12px</code><div class="bar" style="width:12px"></div></div>
+          <div class="sp"><code>--space-4 · 16px</code><div class="bar" style="width:16px"></div></div>
+          <div class="sp"><code>--space-5 · 24px</code><div class="bar" style="width:24px"></div></div>
+          <div class="sp"><code>--space-6 · 32px</code><div class="bar" style="width:32px"></div></div>
+          <div class="sp"><code>--space-7 · 48px</code><div class="bar" style="width:48px"></div></div>
+          <div class="sp"><code>--space-8 · 64px</code><div class="bar" style="width:64px"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="radii">
+      <h2>Radios</h2>
+      <div class="demo"><span class="label">Radius tokens</span>
+        <div class="radii">
+          <div class="rd"><div class="box" style="border-radius:8px"></div><code>--radius-xs 8</code></div>
+          <div class="rd"><div class="box" style="border-radius:12px"></div><code>--radius-sm 12</code></div>
+          <div class="rd"><div class="box" style="border-radius:16px"></div><code>--radius-md 16</code></div>
+          <div class="rd"><div class="box" style="border-radius:22px"></div><code>--radius-lg 22</code></div>
+          <div class="rd"><div class="box" style="border-radius:999px"></div><code>--radius-pill</code></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="shadows">
+      <h2>Sombras / elevación</h2>
+      <p>Tres niveles para crear jerarquía visual. <code>--shadow-glow</code> es contextual al color primary del tenant.</p>
+      <div class="demo"><span class="label">Shadow tokens</span>
+        <div class="shadows">
+          <div class="sh sh-sm">--shadow-sm · tarjetas</div>
+          <div class="sh sh-md">--shadow-md · hover / modal</div>
+          <div class="sh sh-lg">--shadow-lg · panel flotante</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="buttons">
+      <h2>Botones</h2>
+      <p>Cuatro variantes, tres tamaños. Todos heredan los tokens del tenant — el botón nunca conoce el color rosa o teal, solo <code>--brand-primary</code>.</p>
+      <div class="demo"><span class="label">Variantes</span>
+        <div class="row-of">
+          <button class="btn">Primary</button>
+          <button class="btn btn-outline">Outline</button>
+          <button class="btn btn-ghost">Ghost</button>
+          <button class="btn" disabled>Disabled</button>
+        </div>
+      </div>
+      <div class="demo"><span class="label">Tamaños</span>
+        <div class="row-of">
+          <button class="btn btn-sm">Small</button>
+          <button class="btn">Medium</button>
+          <button class="btn btn-lg">Large</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="inputs">
+      <h2>Inputs</h2>
+      <p>Patrón unificado: fondo suave, borde transparente, foco con borde primary. Estado de error con fondo y borde semánticos.</p>
+      <div class="demo"><span class="label">Estados</span>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4)">
+          <div class="field"><label>Default</label><input placeholder="Escribe aquí..."/></div>
+          <div class="field" style="border-color:var(--brand-primary);background:#fff"><label>Focus</label><input value="Hola mundo"/></div>
+          <div class="field err"><label>Error</label><input value="vuelo-incorrecto"/><span class="errmsg">La información de vuelo no concuerda</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="badges">
+      <h2>Badges & pills</h2>
+      <div class="demo"><span class="label">Variantes</span>
+        <div class="row-of">
+          <span class="badge badge-accent">★ Más elegido</span>
+          <span class="badge badge-ok">✓ Vuelo válido</span>
+          <span class="badge badge-warn">⏱ 24 hrs antes</span>
+          <span class="badge badge-err">✕ Pago rechazado</span>
+          <span class="badge badge-soft">Meet & Greet</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="stepper">
+      <h2>Stepper</h2>
+      <p>Tres pasos para el flujo de booking público. Aparece sticky en la parte superior durante el checkout.</p>
+      <div class="demo"><span class="label">Estado intermedio</span>
+        <div class="steplet">
+          <div class="stp on"><span class="n">✓</span> Selecciona servicio</div>
+          <div class="stp on"><span class="n">2</span> Datos de pasajero</div>
+          <div class="stp"><span class="n">3</span> Resumen y pago</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="cards">
+      <h2>Tarjeta de vehículo</h2>
+      <p>El componente más importante de la pantalla de resultados. Variante "destacado" con borde primary y badge accent.</p>
+      <div class="demo"><span class="label">Default + Destacado</span>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="vcard feat" style="position:relative">
+            <span class="badge badge-accent" style="position:absolute;top:-10px;left:24px">★ Más elegido</span>
+            <div class="vimg">🚗</div>
+            <div class="vmeta">
+              <h4>Sedán Privado</h4>
+              <div class="feats"><span>👤 Hasta 3</span><span>🧳 2 maletas</span></div>
+            </div>
+            <div class="vprice"><b>$1,280</b><span>MXN · ida y vuelta</span></div>
+          </div>
+          <div class="vcard">
+            <div class="vimg">🚐</div>
+            <div class="vmeta">
+              <h4>Minivan Privada</h4>
+              <div class="feats"><span>👤 Hasta 7</span><span>🧳 6 maletas</span></div>
+            </div>
+            <div class="vprice"><b>$1,344</b><span>MXN · ida y vuelta</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="docs" id="add-tenant">
+      <h2>Cómo agregar un nuevo tenant</h2>
+      <p>Tres pasos. Cero código nuevo. Cero diseño nuevo.</p>
+      <div class="code">
+<span class="c">// 1. Crear el registro del tenant en la base de datos</span>
+<span class="k">POST</span> /admin/tenants
+{
+  <span class="v">"slug"</span>: <span class="s">"nuevo-hotel"</span>,
+  <span class="v">"domain"</span>: <span class="s">"reservas.nuevohotel.com"</span>,
+  <span class="v">"name"</span>: <span class="s">"Nuevo Hotel"</span>,
+  <span class="v">"defaultPickup"</span>: <span class="s">"scplace-cun"</span>,
+  <span class="v">"defaultDropoff"</span>: <span class="s">"scplace-nuevo"</span>,
+  <span class="v">"currencies"</span>: [<span class="s">"mxn"</span>, <span class="s">"usd"</span>],
+  <span class="v">"languages"</span>: [<span class="s">"es"</span>, <span class="s">"en"</span>],
+  <span class="v">"commissionPct"</span>: <span class="s">12</span>
+}
+
+<span class="c">// 2. Subir el logo</span>
+<span class="k">POST</span> /admin/tenants/nuevo-hotel/assets
+   logo.svg, hero.jpg
+
+<span class="c">// 3. Definir el bloque de tokens en theme/nuevo-hotel.css</span>
+[<span class="v">data-tenant</span><span class="k">=</span><span class="s">"nuevo-hotel"</span>] {
+  <span class="v">--brand-primary</span>: <span class="s">#c2185b</span>;
+  <span class="v">--brand-accent</span>: <span class="s">#ffb300</span>;
+  <span class="v">--brand-hero</span>: linear-gradient(...);
+  <span class="v">--font-display</span>: <span class="s">'Manrope'</span>;
+}
+
+<span class="c">// LISTO. Sitio disponible en reservas.nuevohotel.com</span>
+      </div>
+      <p>Si el admin de Excursion tiene UI para esto (que la tendrá), agregar un tenant es llenar un formulario de 60 segundos.</p>
+    </section>
+
+    <section class="docs" id="rules">
+      <h2>Reglas y do/don't</h2>
+      <h3>Sí</h3>
+      <ul>
+        <li>Usar <b>siempre tokens</b> (<code>var(--brand-primary)</code>, <code>var(--space-4)</code>).</li>
+        <li>Diseñar <b>mobile-first</b>: el 70%+ del tráfico es celular.</li>
+        <li>Targets táctiles <b>≥ 44pt</b> en mobile.</li>
+        <li>Estados claros: hover, focus, disabled, loading, error, vacío.</li>
+        <li>Verificar contraste WCAG AA en cada combinación de tenant.</li>
+      </ul>
+      <h3>No</h3>
+      <ul>
+        <li>Hardcodear colores literales (<code>#0e5c66</code>) en componentes.</li>
+        <li>Inventar tamaños de espaciado o tipografía fuera de la escala.</li>
+        <li>Mezclar márgenes en px con rem aleatoriamente.</li>
+        <li>Diseñar en desktop primero y "ver qué pasa" en mobile.</li>
+        <li>Usar imágenes raster cuando se puede SVG.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<footer class="foot">
+  Design System v0.1 · Booking Engine multi-tenant · Punk Solutions para Excursion Travel · 2026
+</footer>
+
+</body>
+</html>

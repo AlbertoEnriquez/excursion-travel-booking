@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Aloft Cancún — Reserva tu traslado al hotel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr">
+  <div class="hdr-in">
+    <button class="hburger" aria-label="Menú">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    </button>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <span class="pill">🌐 ES</span>
+      <span class="pill">MXN $</span>
+      <a class="hdr-link" href="my-reservation.html">Mi reserva</a>
+      <a class="hdr-link" href="#why">¿Por qué nosotros?</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="container hero-in">
+    <h1>Tu traslado al hotel,<br/>sin estrés y a tiempo.</h1>
+    <p>Monitoreamos tu vuelo en tiempo real. Chofer esperándote, aunque tu vuelo se retrase.</p>
+    <div class="hero-badges">
+      <span class="hero-badge">✈️ Monitoreo en vivo</span>
+      <span class="hero-badge">⭐ +500 mil viajeros</span>
+      <span class="hero-badge">🔒 Pago seguro</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEARCH CARD (sobre el hero) ============ -->
+<div class="container search-wrap">
+  <div class="search-card">
+    <div class="tabs">
+      <button class="tab on">✈️ Aeropuerto</button>
+      <button class="tab">📍 Punto a punto</button>
+    </div>
+
+    <div class="fields-row cols-2" style="margin-bottom:8px">
+      <div class="field">
+        <label>Recogida</label>
+        <input value="Cancún International Airport (CUN)" />
+      </div>
+      <button class="swap-btn desktop-only" title="Invertir">⇄</button>
+      <div class="field">
+        <label>Destino</label>
+        <input value="Aloft Cancún" />
+      </div>
+    </div>
+
+    <div class="fields-row cols-3">
+      <div class="field"><label>Salida</label><input value="jue, 28 may" /></div>
+      <div class="field"><label>Regreso</label><input value="vie, 29 may" /></div>
+      <div class="field"><label>Pasajeros</label><input value="2 adultos" /></div>
+    </div>
+
+    <div class="toggle-row">
+      <span class="switch"></span>
+      <span>Transporte de ida y vuelta</span>
+    </div>
+
+    <a class="btn btn-block btn-lg" href="results.html" style="margin-top:16px">
+      Buscar transporte →
+    </a>
+  </div>
+</div>
+
+<!-- ============ TRUST BAR ============ -->
+<section class="container section" id="why">
+  <div class="trust">
+    <div class="trust-item">
+      <div class="ic">✈️</div>
+      <b>Monitoreo en vivo</b>
+      <span>Seguimos tu vuelo en tiempo real</span>
+    </div>
+    <div class="trust-item">
+      <div class="ic">💳</div>
+      <b>Pago seguro</b>
+      <span>Encriptado y protegido</span>
+    </div>
+    <div class="trust-item">
+      <div class="ic">🚐</div>
+      <b>Choferes certificados</b>
+      <span>Vehículos sanitizados</span>
+    </div>
+    <div class="trust-item">
+      <div class="ic">↩️</div>
+      <b>Cancelación flexible</b>
+      <span>Gratis hasta 24h antes</span>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px">
+    <h2 id="homeName">Aloft Cancún es tu mejor opción en traslados</h2>
+    <p style="color:var(--brand-muted);margin-top:8px;font-size:var(--fs-lg);max-width:580px;margin-inline:auto">La forma más confiable de llegar a tu hotel desde el aeropuerto.</p>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos de uso</a>
+      <a href="privacy.html">Políticas de Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">
+      Contacto: +1 786 723 6220<br/>
+      ebookings@aloftcancun.com
+    </div>
+    <div class="foot-copy">© 2026 Aloft Cancún · Operado por Excursion Travel</div>
+  </div>
+</footer>
+
+<!-- ============ PROTO NAV (solo para revisar el prototipo) ============ -->
+<nav class="proto-nav">
+  <a href="index.html" class="on">Home</a>
+  <a href="results.html">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="preview.html">📱 Preview</a>
+  <a href="design-system.html">📐 DS</a>
+</nav>
+
+<script>
+/* Logo: imagen real con fallback texto */
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+function applyTenantText(){
+  const t=document.documentElement.getAttribute('data-tenant');
+  const cfg=tenantLogos[t]||{img:null,name:t,sub:''};
+  const box=document.getElementById('logo');
+  if(cfg.img){
+    const im=new Image();
+    im.alt=cfg.name; im.src=cfg.img;
+    im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+    box.innerHTML=''; box.appendChild(im);
+  }else{
+    box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';
+  }
+}
+applyTenantText();
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>

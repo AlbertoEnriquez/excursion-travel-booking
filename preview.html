@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Device Preview · Aloft Cancún</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#0c1322;color:#fff;
+  min-height:100vh;
+  padding:24px 16px 80px;
+}
+.head{
+  max-width:1400px;margin:0 auto 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.head h1{font-family:'Outfit';font-size:24px;font-weight:800;letter-spacing:-.01em}
+.head .sub{font-size:14px;opacity:.6;margin-top:4px}
+.head a{color:#7cffd3;font-size:14px;font-weight:700;text-decoration:none;padding:8px 14px;background:rgba(255,255,255,.06);border-radius:999px}
+.head a:hover{background:rgba(255,255,255,.12)}
+
+/* Page selector */
+.pages{
+  max-width:1400px;margin:0 auto 24px;
+  display:flex;gap:6px;flex-wrap:wrap;
+  background:rgba(255,255,255,.06);
+  padding:6px;border-radius:999px;
+  width:fit-content;
+}
+.pg{
+  border:none;background:transparent;color:#fff;
+  padding:8px 14px;border-radius:999px;
+  font-weight:700;font-size:13px;cursor:pointer;
+  font-family:inherit;
+  transition:.2s;
+}
+.pg.on{background:#0e5c66}
+.pg:hover:not(.on){background:rgba(255,255,255,.08)}
+
+/* Frames */
+.frames{
+  max-width:1400px;margin:0 auto;
+  display:flex;gap:32px;align-items:flex-start;justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* Phone frame */
+.phone{
+  position:relative;
+  width:393px;
+  background:#1a1a2e;
+  border-radius:48px;
+  padding:14px;
+  box-shadow:0 30px 60px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.05);
+  flex:0 0 auto;
+}
+.phone::before{
+  content:"";position:absolute;top:24px;left:50%;transform:translateX(-50%);
+  width:110px;height:30px;background:#000;border-radius:999px;z-index:2;
+}
+.phone iframe{
+  width:100%;height:780px;
+  border:none;border-radius:36px;
+  background:#fff;display:block;
+}
+.phone .legend{
+  text-align:center;
+  font-size:12px;font-weight:700;color:#7cffd3;
+  margin-top:14px;letter-spacing:.06em;
+}
+
+/* Desktop frame */
+.desk{
+  flex:1;min-width:0;max-width:880px;
+  background:#1a1a2e;border-radius:14px;
+  padding:14px;
+  box-shadow:0 30px 60px rgba(0,0,0,.5),inset 0 0 0 2px rgba(255,255,255,.05);
+}
+.desk-bar{
+  display:flex;align-items:center;gap:6px;
+  padding-bottom:10px;
+}
+.desk-bar i{width:12px;height:12px;border-radius:50%;background:#ff5f57}
+.desk-bar i:nth-child(2){background:#febc2e}
+.desk-bar i:nth-child(3){background:#28c840}
+.desk-bar .addr{
+  flex:1;background:rgba(255,255,255,.08);
+  border-radius:6px;padding:6px 14px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.6);
+  font-family:'JetBrains Mono','SF Mono',monospace;
+}
+.desk iframe{
+  width:100%;height:780px;
+  border:none;border-radius:6px;
+  background:#fff;display:block;
+}
+.desk .legend{
+  text-align:center;
+  font-size:12px;font-weight:700;color:#7cffd3;
+  margin-top:14px;letter-spacing:.06em;
+}
+
+/* Layout toggle */
+.toolbar{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  background:#1a1a2e;
+  border-radius:999px;
+  padding:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,.5);
+  display:flex;gap:4px;z-index:20;
+}
+.toolbar button{
+  border:none;background:transparent;color:#fff;
+  padding:8px 14px;border-radius:999px;
+  font-weight:700;font-size:13px;cursor:pointer;
+  font-family:inherit;
+}
+.toolbar button.on{background:#0e5c66}
+.toolbar button:hover:not(.on){background:rgba(255,255,255,.08)}
+
+.frames.mobile-only .desk{display:none}
+.frames.desktop-only .phone{display:none}
+
+@media (max-width:900px){
+  .desk{display:none}
+  .phone{margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<header class="head">
+  <div>
+    <h1>📱💻 Device Preview · Aloft Cancún</h1>
+    <div class="sub">Vista mobile (iPhone 14) y desktop simultáneamente. Cambia de pantalla arriba.</div>
+  </div>
+  <a href="index.html">← Volver al prototipo</a>
+</header>
+
+<div class="pages">
+  <button class="pg on" data-page="index.html">Home</button>
+  <button class="pg" data-page="results.html">Resultados</button>
+  <button class="pg" data-page="passenger.html">Datos pasajero</button>
+  <button class="pg" data-page="payment.html">Pago</button>
+  <button class="pg" data-page="confirmation.html">Confirmación</button>
+  <button class="pg" data-page="my-reservation.html">Mi reserva</button>
+  <button class="pg" data-page="error-payment.html">⚠️ Error pago</button>
+  <button class="pg" data-page="no-availability.html">Sin disponibilidad</button>
+  <button class="pg" data-page="404.html">404</button>
+  <button class="pg" data-page="email.html">📧 Email</button>
+  <button class="pg" data-page="voucher.html">📄 Voucher PDF</button>
+  <button class="pg" data-page="terms.html">⚖️ Términos</button>
+  <button class="pg" data-page="privacy.html">🔒 Privacidad</button>
+  <button class="pg" data-page="billing.html">🧾 Facturación CFDI</button>
+  <button class="pg" data-page="design-system.html">Design System</button>
+</div>
+
+<div class="frames" id="frames">
+  <div class="phone">
+    <iframe id="mob" src="index.html" title="Mobile preview"></iframe>
+    <div class="legend">📱 iPhone · 393px</div>
+  </div>
+  <div class="desk">
+    <div class="desk-bar">
+      <i></i><i></i><i></i>
+      <span class="addr">reservas.aloftcancun.com<span id="path"></span></span>
+    </div>
+    <iframe id="dsk" src="index.html" title="Desktop preview"></iframe>
+    <div class="legend">🖥️ Desktop · responsive</div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <button class="tb on" data-view="both">📱💻 Ambos</button>
+  <button class="tb" data-view="mobile-only">📱 Solo mobile</button>
+  <button class="tb" data-view="desktop-only">🖥️ Solo desktop</button>
+</div>
+
+<script>
+const frames = document.getElementById('frames');
+const mob = document.getElementById('mob');
+const dsk = document.getElementById('dsk');
+const path = document.getElementById('path');
+
+// Page switcher
+document.querySelectorAll('.pg').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('.pg').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    const p = b.dataset.page;
+    mob.src = p;
+    dsk.src = p;
+    path.textContent = p === 'index.html' ? '' : '/' + p.replace('.html','');
+  };
+});
+
+// View toggle
+document.querySelectorAll('.tb').forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll('.tb').forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    frames.className = 'frames ' + (b.dataset.view === 'both' ? '' : b.dataset.view);
+  };
+});
+</script>
+</body>
+</html>

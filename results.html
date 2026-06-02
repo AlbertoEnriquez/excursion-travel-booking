@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es" data-tenant="aloft">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0e5c66" />
+<title>Selecciona tu transporte — Aloft Cancún</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/components.css" />
+<style>
+/* Estilos específicos de esta pantalla */
+.map-mobile{
+  height:140px;border-radius:var(--radius-md);overflow:hidden;
+  margin-bottom:var(--space-4);position:relative;
+  background:
+    repeating-linear-gradient(0deg,#e9eef0 0 1px,transparent 1px 28px),
+    repeating-linear-gradient(90deg,#e9eef0 0 1px,transparent 1px 28px),
+    linear-gradient(135deg,#dff0ee,#eef5f9);
+}
+.map-mobile .route{position:absolute;top:30%;left:18%;width:62%;height:40%;border:3px dashed var(--brand-primary);border-radius:40%;opacity:.5}
+.map-mobile .pin{position:absolute;width:26px;height:26px;background:var(--brand-primary);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:var(--shadow-md);display:grid;place-items:center}
+.map-mobile .pin span{transform:rotate(45deg);color:#fff;font-weight:800;font-size:12px}
+.map-mobile .pin.a{top:55%;left:14%}
+.map-mobile .pin.b{top:24%;right:14%;background:var(--brand-accent)}
+.map-meta{
+  position:absolute;bottom:8px;left:8px;
+  background:rgba(12,46,49,.88);color:#fff;
+  padding:4px 10px;border-radius:var(--radius-pill);
+  font-size:var(--fs-xs);font-weight:700;
+}
+@media (min-width:1024px){
+  .map-mobile{display:none}
+}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--space-4)}
+.sec-title h2{font-size:var(--fs-2xl)}
+.sec-title .count{font-size:var(--fs-sm);color:var(--brand-muted);font-weight:700}
+@media (min-width:768px){.sec-title h2{font-size:var(--fs-3xl)}}
+
+/* Iconos vehículo */
+.vimg-svg svg{width:100%;height:auto;max-width:120px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <a href="index.html" class="hburger" aria-label="Volver">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+    <div class="logo" id="logo"></div>
+    <div class="hdr-actions">
+      <span class="pill">🌐 ES</span>
+      <span class="pill">MXN $</span>
+      <a class="hdr-link" href="my-reservation.html">Mi reserva</a>
+    </div>
+  </div>
+</header>
+
+<!-- STEPPER -->
+<div class="stepper">
+  <div class="container stepper-in">
+    <div class="step on"><span class="n">1</span> Selecciona servicio</div>
+    <div class="step"><span class="n">2</span> Datos de pasajero</div>
+    <div class="step"><span class="n">3</span> Resumen y pago</div>
+  </div>
+</div>
+
+<main class="container section" style="padding-top:var(--space-4)">
+
+  <!-- Trip mini (editable) -->
+  <div class="trip-mini">
+    <div class="info">
+      <b>CUN → Aloft Cancún</b>
+      <span>jue 28 → vie 29 may · 2 adultos · ida y vuelta</span>
+    </div>
+    <a href="index.html" class="edit">✏️ Editar</a>
+  </div>
+
+  <div class="split">
+
+    <!-- Columna izquierda: resultados -->
+    <section id="resultsCol">
+
+      <!-- ============ SKELETON STATE (visible cuando data-loading=true) ============ -->
+      <div id="skelView" style="display:none">
+        <!-- Mapa skeleton mobile -->
+        <div class="skel" style="height:140px;margin-bottom:var(--space-4);display:block"></div>
+
+        <div class="sec-title">
+          <h2>Selecciona tu transporte</h2>
+          <span class="count" style="display:inline-flex;align-items:center;gap:6px;color:var(--brand-muted)"><span class="spinner spinner-dark"></span> Buscando…</span>
+        </div>
+
+        <!-- 5 skeleton cards -->
+        <div class="skel-vcard"><div class="skel-top"><div class="skel-img-box"></div><div class="skel-meta"><div class="skel skel-line lg"></div><div class="skel skel-line md"></div><div class="skel skel-line sm"></div></div></div><div class="skel-bottom"><div class="skel skel-line sm" style="width:90px"></div><div class="skel-stack" style="align-items:flex-end;gap:6px"><div class="skel skel-line xl" style="width:100px"></div><div class="skel skel-line sm" style="width:60px"></div></div></div></div>
+        <div class="skel-vcard"><div class="skel-top"><div class="skel-img-box"></div><div class="skel-meta"><div class="skel skel-line lg"></div><div class="skel skel-line md"></div><div class="skel skel-line sm"></div></div></div><div class="skel-bottom"><div class="skel skel-line sm" style="width:90px"></div><div class="skel-stack" style="align-items:flex-end;gap:6px"><div class="skel skel-line xl" style="width:100px"></div><div class="skel skel-line sm" style="width:60px"></div></div></div></div>
+        <div class="skel-vcard"><div class="skel-top"><div class="skel-img-box"></div><div class="skel-meta"><div class="skel skel-line lg"></div><div class="skel skel-line md"></div><div class="skel skel-line sm"></div></div></div><div class="skel-bottom"><div class="skel skel-line sm" style="width:90px"></div><div class="skel-stack" style="align-items:flex-end;gap:6px"><div class="skel skel-line xl" style="width:100px"></div><div class="skel skel-line sm" style="width:60px"></div></div></div></div>
+        <div class="skel-vcard"><div class="skel-top"><div class="skel-img-box"></div><div class="skel-meta"><div class="skel skel-line lg"></div><div class="skel skel-line md"></div><div class="skel skel-line sm"></div></div></div><div class="skel-bottom"><div class="skel skel-line sm" style="width:90px"></div><div class="skel-stack" style="align-items:flex-end;gap:6px"><div class="skel skel-line xl" style="width:100px"></div><div class="skel skel-line sm" style="width:60px"></div></div></div></div>
+        <div class="skel-vcard"><div class="skel-top"><div class="skel-img-box"></div><div class="skel-meta"><div class="skel skel-line lg"></div><div class="skel skel-line md"></div><div class="skel skel-line sm"></div></div></div><div class="skel-bottom"><div class="skel skel-line sm" style="width:90px"></div><div class="skel-stack" style="align-items:flex-end;gap:6px"><div class="skel skel-line xl" style="width:100px"></div><div class="skel skel-line sm" style="width:60px"></div></div></div></div>
+      </div>
+
+      <!-- ============ REAL VIEW ============ -->
+      <div id="realView">
+      <!-- Mapa solo en mobile (en desktop está en el aside) -->
+      <div class="map-mobile">
+        <div class="route"></div>
+        <div class="pin a"><span>A</span></div>
+        <div class="pin b"><span>B</span></div>
+        <span class="map-meta">~18 km · 25 min</span>
+      </div>
+
+      <div class="sec-title">
+        <h2>Selecciona tu transporte</h2>
+        <span class="count">5 opciones</span>
+      </div>
+
+      <!-- Filtros -->
+      <div class="filters">
+        <button class="filter on">Todos</button>
+        <button class="filter">👤 1-3 pasajeros</button>
+        <button class="filter">👤 4-7 pasajeros</button>
+        <button class="filter">⭐ Lujo</button>
+        <button class="filter">$ Menor precio</button>
+      </div>
+
+      <!-- VEHICLE CARD: Sedán Privado (destacado) -->
+      <article class="vcard feat">
+        <span class="vcard-badge">★ Más elegido</span>
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg">
+            <svg viewBox="0 0 120 60" fill="none"><path d="M20 38l8-14c1-2 3-3 5-3h44c2 0 4 1 5 3l8 14" stroke="var(--brand-primary)" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="14" y="36" width="92" height="10" rx="5" fill="var(--brand-primary)"/><circle cx="34" cy="48" r="7" fill="var(--brand-ink)"/><circle cx="86" cy="48" r="7" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>Sedán Privado</h3>
+            <div class="vcard-feats"><span>👤 Hasta 3</span><span>🧳 2 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div>
+            <span class="badge badge-ok">↩️ Reembolsable</span>
+          </div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$1,280<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm" style="margin-top:8px;display:inline-flex">Reservar →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Minivan -->
+      <article class="vcard">
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg">
+            <svg viewBox="0 0 120 60" fill="none"><rect x="14" y="20" width="92" height="26" rx="6" fill="var(--brand-primary)"/><rect x="22" y="26" width="26" height="12" rx="2" fill="#fff" opacity=".8"/><rect x="54" y="26" width="20" height="12" rx="2" fill="#fff" opacity=".8"/><circle cx="36" cy="48" r="7" fill="var(--brand-ink)"/><circle cx="88" cy="48" r="7" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>Minivan Privada</h3>
+            <div class="vcard-feats"><span>👤 Hasta 7</span><span>🧳 6 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$1,344<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- SUV Lujo -->
+      <article class="vcard">
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg">
+            <svg viewBox="0 0 120 60" fill="none"><path d="M16 30l6-8c1-2 3-3 5-3h54c2 0 4 1 5 3l6 8" stroke="var(--brand-primary)" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="14" y="28" width="92" height="18" rx="5" fill="var(--brand-primary)"/><rect x="24" y="22" width="60" height="8" rx="2" fill="var(--brand-primary)" opacity=".5"/><circle cx="34" cy="48" r="8" fill="var(--brand-ink)"/><circle cx="86" cy="48" r="8" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>SUV de Lujo</h3>
+            <div class="vcard-feats"><span>👤 Hasta 5</span><span>🧳 5 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$3,040<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Minivan 14 pax -->
+      <article class="vcard">
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg">
+            <svg viewBox="0 0 120 60" fill="none"><rect x="14" y="20" width="92" height="26" rx="6" fill="var(--brand-primary)"/><rect x="22" y="26" width="26" height="12" rx="2" fill="#fff" opacity=".8"/><rect x="54" y="26" width="20" height="12" rx="2" fill="#fff" opacity=".8"/><circle cx="36" cy="48" r="7" fill="var(--brand-ink)"/><circle cx="88" cy="48" r="7" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>Minivan 1-14 pax</h3>
+            <div class="vcard-feats"><span>👤 Hasta 14</span><span>🧳 14 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$3,520<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Minibús 21 -->
+      <article class="vcard">
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg">
+            <svg viewBox="0 0 120 60" fill="none"><rect x="14" y="18" width="92" height="28" rx="6" fill="var(--brand-primary)"/><rect x="20" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><rect x="44" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><rect x="68" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><circle cx="36" cy="48" r="7" fill="var(--brand-ink)"/><circle cx="88" cy="48" r="7" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>Minibús 21 Pax</h3>
+            <div class="vcard-feats"><span>👤 Hasta 21</span><span>🧳 21 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$4,800<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
+          </div>
+        </div>
+      </article>
+      </div><!-- /#realView -->
+    </section>
+
+    <!-- Sidebar (solo desktop) -->
+    <aside class="split-aside desktop-only">
+      <div class="summary">
+        <div class="summary-h">
+          <b>Tu viaje</b>
+          <p>jueves 28 may 2026<br/>CUN → Aloft Cancún</p>
+        </div>
+        <div class="summary-map">
+          <div class="route"></div>
+          <div class="pin a"><span>A</span></div>
+          <div class="pin b"><span>B</span></div>
+        </div>
+        <div class="summary-f">
+          <div class="summary-line"><span>Distancia</span><b>~18 km</b></div>
+          <div class="summary-line"><span>Tiempo estimado</span><b>~25 min</b></div>
+          <div class="summary-line"><span>Tipo</span><b>Ida y vuelta</b></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="foot">
+  <div class="container foot-in">
+    <div class="foot-links">
+      <a href="terms.html">Términos</a>
+      <a href="privacy.html">Privacidad</a>
+      <a href="billing.html">Facturación</a>
+    </div>
+    <div class="foot-contact">+1 786 723 6220 · ebookings@aloftcancun.com</div>
+    <div class="foot-copy">© 2026 Aloft Cancún · Operado por Excursion Travel</div>
+  </div>
+</footer>
+
+<!-- TOGGLE SKELETON (solo prototipo) -->
+<button class="skel-toggle" id="toggleSkel" onclick="toggleSkeleton()">
+  <span id="toggleIc">💀</span> <span id="toggleTxt">Ver estado de carga</span>
+</button>
+
+<!-- PROTO NAV -->
+<nav class="proto-nav">
+  <a href="index.html">Home</a>
+  <a href="results.html" class="on">Resultados</a>
+  <a href="passenger.html">Pasajero</a>
+  <a href="payment.html">Pago</a>
+  <a href="confirmation.html">Confirmación</a>
+  <a href="preview.html">📱 Preview</a>
+  <a href="design-system.html">📐 DS</a>
+</nav>
+
+<script>
+const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const t=document.documentElement.getAttribute('data-tenant');
+const cfg=tenantLogos[t]; const box=document.getElementById('logo');
+if(cfg && cfg.img){
+  const im=new Image(); im.alt=cfg.name; im.src=cfg.img;
+  im.onerror=()=>{box.innerHTML='<b>'+cfg.name+'</b><span>'+cfg.sub+'</span>';};
+  box.appendChild(im);
+}
+
+/* Toggle estado de carga (solo prototipo) */
+let isLoading = false;
+function toggleSkeleton(){
+  isLoading = !isLoading;
+  document.getElementById('skelView').style.display = isLoading ? 'block' : 'none';
+  document.getElementById('realView').style.display = isLoading ? 'none' : 'block';
+  document.getElementById('toggleIc').textContent = isLoading ? '✅' : '💀';
+  document.getElementById('toggleTxt').textContent = isLoading ? 'Ver estado real' : 'Ver estado de carga';
+}
+</script>
+<script src="assets/js/drawer.js" defer></script>
+</body>
+</html>
