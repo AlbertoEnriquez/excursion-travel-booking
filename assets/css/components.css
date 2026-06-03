@@ -738,16 +738,18 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
   animation:spin .8s linear infinite;
 }
 
-/* Toggle skeleton button (solo prototipo) */
+/* Toggle skeleton button (solo dev) */
 .skel-toggle{
+  display:none; /* oculto por default — solo visible con ?dev=1 */
   position:fixed;bottom:24px;left:24px;z-index:55;
   background:#15123b;color:#fff;
   border-radius:var(--radius-pill);
   padding:10px 18px;font-weight:700;font-size:var(--fs-sm);
   box-shadow:var(--shadow-md);border:none;cursor:pointer;
-  display:flex;align-items:center;gap:8px;
+  align-items:center;gap:8px;
 }
 .skel-toggle:hover{background:#221a5c}
+body.dev-mode .skel-toggle{display:flex}
 
 /* ============================================================
    LEGAL PAGES — Términos, Privacidad, Facturación
@@ -962,17 +964,20 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
 @media (min-width:768px){.menu-trigger{display:none}}
 
 /* ============================================================
-   NAV BETWEEN SCREENS (solo para el prototipo, no en producción)
+   NAV BETWEEN SCREENS (solo para dev — oculto por default,
+   visible solo con ?dev=1 en la URL)
    ============================================================ */
 .proto-nav{
+  display:none; /* oculto por default */
   position:fixed;top:80px;right:12px;z-index:60;
-  display:flex;gap:4px;
+  gap:4px;
   background:var(--brand-surface);padding:6px;
   border-radius:var(--radius-pill);
   box-shadow:var(--shadow-md);
   max-width:calc(100vw - 24px);overflow-x:auto;
   font-size:var(--fs-sm);
 }
+body.dev-mode .proto-nav{display:flex}
 .proto-nav a{
   padding:8px 14px;border-radius:var(--radius-pill);
   font-weight:700;color:var(--brand-muted);

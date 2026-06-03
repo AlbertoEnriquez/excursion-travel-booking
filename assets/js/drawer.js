@@ -9,6 +9,22 @@
   if (window.__DRAWER_INIT__) return;
   window.__DRAWER_INIT__ = true;
 
+  /* Modo dev: muestra herramientas internas (proto-nav, skel-toggle) solo
+     cuando la URL incluye ?dev=1. Para clientes (Valeria) → vista limpia. */
+  const isDev = new URLSearchParams(location.search).get('dev') === '1';
+  if (isDev) {
+    document.body.classList.add('dev-mode');
+    // Preservar ?dev=1 al navegar entre páginas internas del proto
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.proto-nav a').forEach(a => {
+        const href = a.getAttribute('href');
+        if (href && !href.startsWith('http') && !href.includes('?')) {
+          a.setAttribute('href', href + '?dev=1');
+        }
+      });
+    });
+  }
+
   // Detectar página actual para marcar el link activo
   const PAGE = (location.pathname.split('/').pop() || 'index.html');
 
