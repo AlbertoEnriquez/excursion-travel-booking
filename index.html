@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" data-tenant="aloft">
+<html lang="es" data-tenant="excursion">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="theme-color" content="#0e5c66" />
-<title>Aloft Cancún — Reserva tu traslado al hotel</title>
+<meta name="theme-color" content="#16a34a" />
+<title>Excursion Travel — Reserva tu traslado al hotel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
@@ -59,7 +59,7 @@
       <button class="swap-btn desktop-only" title="Invertir">⇄</button>
       <div class="field">
         <label>Destino</label>
-        <input value="Aloft Cancún" />
+        <input value="Excursion Travel" />
       </div>
     </div>
 
@@ -106,7 +106,7 @@
   </div>
 
   <div style="text-align:center;margin-top:48px">
-    <h2 id="homeName">Aloft Cancún es tu mejor opción en traslados</h2>
+    <h2 id="homeName">Excursion Travel es tu mejor opción en traslados</h2>
     <p style="color:var(--brand-muted);margin-top:8px;font-size:var(--fs-lg);max-width:580px;margin-inline:auto">La forma más confiable de llegar a tu hotel desde el aeropuerto.</p>
   </div>
 </section>
@@ -121,9 +121,9 @@
     </div>
     <div class="foot-contact">
       Contacto: +1 786 723 6220<br/>
-      ebookings@aloftcancun.com
+      reservas@excursiontravel.com
     </div>
-    <div class="foot-copy">© 2026 Aloft Cancún · Operado por Excursion Travel</div>
+    <div class="foot-copy">© 2026 Excursion Travel · Operado por Excursion Travel</div>
   </div>
 </footer>
 
@@ -140,7 +140,7 @@
 
 <script>
 /* Logo: imagen real con fallback texto */
-const tenantLogos={ aloft:{img:'assets/aloft-logo.png', name:'aloft', sub:'CANCÚN'} };
+const tenantLogos={ excursion:{img:null, name:'Excursion', sub:'TRAVEL'} };
 function applyTenantText(){
   const t=document.documentElement.getAttribute('data-tenant');
   const cfg=tenantLogos[t]||{img:null,name:t,sub:''};

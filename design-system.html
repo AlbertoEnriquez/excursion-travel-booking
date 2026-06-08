@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-tenant="aloft">
+<html lang="es" data-tenant="excursion">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +26,7 @@
 /* =============================================================
    CAPA 2 — TOKENS POR TENANT  (lo único que cambia por hotel)
    ============================================================= */
-[data-tenant="aloft"]{
+[data-tenant="excursion"]{
   --brand-primary:#0e5c66; --brand-primary-dark:#093f47;
   --brand-primary-glow:rgba(14,92,102,.32);
   --brand-accent:#ff7a4d;
@@ -216,9 +216,9 @@ footer.foot{padding:var(--space-7) var(--space-7);color:var(--brand-muted);font-
 
   <main class="main">
     <div class="kicker">Sistema de diseño</div>
-    <h1 class="title">Sistema de diseño<br/>Aloft Cancún.</h1>
+    <h1 class="title">Sistema de diseño<br/>Excursion Travel.</h1>
     <p class="lead">
-      Este documento define los tokens, componentes y reglas que sostienen el sitio de Aloft Cancún.
+      Este documento define los tokens, componentes y reglas que sostienen el sitio de Excursion Travel.
       La arquitectura queda preparada para escalar a otros hoteles de Excursion Travel en el futuro, sin tocar los componentes.
     </p>
 
@@ -237,7 +237,7 @@ footer.foot{padding:var(--space-7) var(--space-7);color:var(--brand-muted);font-
       <p>El tenant se resuelve por dominio. Una vez resuelto, se aplica como atributo en <code>&lt;html&gt;</code> y el navegador re-pinta toda la página leyendo los tokens correspondientes.</p>
       <div class="code">
 <span class="c">// 1. Middleware resuelve el tenant por dominio</span>
-reservas.aloftcancun.com  <span class="k">→</span>  tenant <span class="k">=</span> <span class="s">"aloft"</span>
+reservas.excursiontravel.com  <span class="k">→</span>  tenant <span class="k">=</span> <span class="s">"aloft"</span>
 
 <span class="c">// 2. Next.js inyecta el atributo</span>
 <span class="p">&lt;</span><span class="k">html</span> <span class="v">data-tenant</span><span class="k">=</span><span class="s">"aloft"</span><span class="p">&gt;</span>

@@ -66,7 +66,24 @@
   }
 }
 
-/* ===== Capa 2 — Tenant Aloft Cancún ===== */
+/* ===== Capa 2 — Tenant: Excursion Travel (neutro, marca por confirmar) =====
+   Placeholder de skeleton. Verde + blanco como base.
+   Cuando Excursion entregue assets oficiales, solo se reemplazan estos valores. */
+[data-tenant="excursion"]{
+  --brand-primary:#16a34a;            /* verde principal — placeholder */
+  --brand-primary-dark:#15803d;
+  --brand-primary-glow:rgba(22,163,74,.30);
+  --brand-accent:#f97316;             /* naranja para acentos cálidos */
+  --brand-ink:#0f172a;                /* texto principal — slate 900 */
+  --brand-muted:#64748b;              /* texto secundario — slate 500 */
+  --brand-bg:#f8fafc;                 /* fondo de página — slate 50 (casi blanco) */
+  --brand-surface:#ffffff;            /* tarjetas y paneles — blanco puro */
+  --brand-hero:linear-gradient(120deg,#14532d 0%,#16a34a 55%,#22c55e 100%);
+  --font-display:'Outfit',sans-serif;
+  --font-body:'Plus Jakarta Sans',sans-serif;
+}
+
+/* ===== Tenant histórico Aloft (preservado para reverso si se quiere comparar) ===== */
 [data-tenant="aloft"]{
   --brand-primary:#0e5c66;
   --brand-primary-dark:#093f47;
