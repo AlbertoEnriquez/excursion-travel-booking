@@ -5,6 +5,35 @@
    - Si .hburger es un <a> (subpáginas con back arrow), inyecta un trigger
      a la derecha en .hdr-actions (mobile-only por CSS).
    ============================================================ */
+/* ============================================================
+   Co-branding: marca operador (Xcaret) + hotel referidor (Aloft)
+   En producción el hotel referidor se detecta por subdominio.
+   ============================================================ */
+(function injectCobrand(){
+  const logoEl = document.getElementById('logo');
+  if (!logoEl || logoEl.closest('.cobrand')) return;
+
+  // Fallback: si la página no inicializó el logo, lo renderizamos
+  if (logoEl.children.length === 0) {
+    logoEl.innerHTML = '<b>Xcaret</b><span>TOURS Y TRASLADOS</span>';
+  }
+
+  // Hotel referidor — en producción esto se resuelve por subdominio o cookie
+  const referrer = { name: 'Aloft Cancún', logo: 'assets/aloft-logo.png' };
+
+  const cobrand = document.createElement('div');
+  cobrand.className = 'cobrand';
+  logoEl.parentNode.insertBefore(cobrand, logoEl);
+  cobrand.appendChild(logoEl);
+  cobrand.insertAdjacentHTML('beforeend',
+    '<span class="cobrand-sep" aria-hidden="true">×</span>' +
+    '<div class="cobrand-hotel">' +
+      '<span class="cobrand-label">en alianza con</span>' +
+      '<img src="' + referrer.logo + '" alt="' + referrer.name + '" />' +
+    '</div>'
+  );
+})();
+
 (function(){
   if (window.__DRAWER_INIT__) return;
   window.__DRAWER_INIT__ = true;

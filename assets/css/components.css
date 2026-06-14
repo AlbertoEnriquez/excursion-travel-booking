@@ -30,6 +30,45 @@
 .logo b{font-family:var(--font-display);font-size:24px;font-weight:800;letter-spacing:-.04em;color:var(--brand-primary)}
 .logo span{font-size:10px;letter-spacing:.28em;color:var(--brand-muted);margin-top:3px;font-weight:600}
 
+/* ===== Co-brand: operador (Xcaret) + hotel referidor (Aloft) ===== */
+.cobrand{
+  display:flex;align-items:center;gap:8px;
+  flex:0 0 auto;min-width:0;
+}
+.cobrand .logo{flex:0 0 auto}
+.cobrand-sep{
+  color:var(--brand-muted);
+  font-size:14px;font-weight:300;
+  opacity:.45;
+  flex:0 0 auto;
+}
+.cobrand-hotel{
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+  line-height:1;flex:0 0 auto;
+}
+.cobrand-label{
+  font-size:8px;letter-spacing:.12em;
+  color:var(--brand-muted);font-weight:700;
+  text-transform:uppercase;
+  margin-bottom:3px;white-space:nowrap;
+  display:none; /* oculto por default, se muestra en tablet+ */
+}
+.cobrand-hotel img{
+  height:28px;width:auto;display:block;
+}
+@media (min-width:768px){
+  .cobrand{gap:12px}
+  .cobrand-sep{font-size:18px}
+  .cobrand-label{display:block;font-size:9px}
+  .cobrand-hotel img{height:36px}
+}
+@media (min-width:1024px){
+  .cobrand{gap:16px}
+  .cobrand-hotel img{height:48px}
+  .cobrand-label{font-size:10px}
+}
+
 .hdr-actions{display:flex;align-items:center;gap:var(--space-2)}
 .hdr-link{
   display:none;
