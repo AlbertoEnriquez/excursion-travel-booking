@@ -134,6 +134,23 @@
   min-height:var(--tap-min);
 }
 .tab.on{background:var(--brand-primary);color:#fff;box-shadow:var(--shadow-sm)}
+.tab[disabled],.tab.disabled{
+  opacity:.6;cursor:not-allowed;
+  background:transparent;color:var(--brand-muted);
+  position:relative;
+}
+.tab[disabled]:hover,.tab.disabled:hover{background:transparent;color:var(--brand-muted)}
+.soon-badge{
+  display:inline-block;
+  font-size:9px;font-weight:800;letter-spacing:.05em;
+  background:var(--brand-accent);color:#fff;
+  padding:2px 6px;border-radius:var(--radius-pill);
+  margin-left:5px;text-transform:uppercase;
+  vertical-align:middle;
+}
+@media (min-width:768px){
+  .soon-badge{font-size:10px;padding:3px 8px}
+}
 
 /* Fields */
 .field{
