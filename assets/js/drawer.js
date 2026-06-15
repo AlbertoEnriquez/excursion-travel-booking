@@ -6,21 +6,52 @@
      a la derecha en .hdr-actions (mobile-only por CSS).
    ============================================================ */
 /* ============================================================
-   Co-branding: marca operador (Xcaret) + hotel referidor (Aloft)
-   En producción el hotel referidor se detecta por subdominio.
+   Co-branding multi-hotel
+   En producción: el subdominio determina el hotel (Modelo B)
+     aloft.toursytraslados.com  → hotel "aloft"
+     nyx.toursytraslados.com    → hotel "nyx"
+   En el prototipo: ?h=aloft|nyx en la URL, persistido en localStorage,
+     y un switcher visual para que se vea la diferencia.
    ============================================================ */
-(function injectCobrand(){
+window.__HOTEL_REGISTRY__ = {
+  aloft: {
+    name: 'Aloft Cancún',
+    logo: 'assets/aloft-logo.png',
+    codigo_prefijo: 'ALF',
+    permite_interhotel: true,
+    rutas_count: 3
+  },
+  nyx: {
+    name: 'NYX Cancún',
+    logo: 'assets/nyx-logo.svg',
+    codigo_prefijo: 'NYX',
+    permite_interhotel: false,
+    rutas_count: 1
+  }
+};
+
+(function resolveAndInjectCobrand(){
   const logoEl = document.getElementById('logo');
   if (!logoEl || logoEl.closest('.cobrand')) return;
 
-  // Fallback: si la página no inicializó el logo, lo renderizamos
+  // Fallback de logo principal
   if (logoEl.children.length === 0) {
     logoEl.innerHTML = '<b>Xcaret</b><span>TOURS Y TRASLADOS</span>';
   }
 
-  // Hotel referidor — en producción esto se resuelve por subdominio o cookie
-  const referrer = { name: 'Aloft Cancún', logo: 'assets/aloft-logo.png' };
+  // Resolver hotel: URL param > localStorage > default 'aloft'
+  const params = new URLSearchParams(location.search);
+  let hotelKey = params.get('h');
+  if (hotelKey && window.__HOTEL_REGISTRY__[hotelKey]) {
+    try { localStorage.setItem('refHotel', hotelKey); } catch(e){}
+  } else {
+    try { hotelKey = localStorage.getItem('refHotel'); } catch(e){}
+    if (!hotelKey || !window.__HOTEL_REGISTRY__[hotelKey]) hotelKey = 'aloft';
+  }
+  const referrer = window.__HOTEL_REGISTRY__[hotelKey];
+  window.__CURRENT_HOTEL__ = hotelKey;
 
+  // Inyectar co-brand
   const cobrand = document.createElement('div');
   cobrand.className = 'cobrand';
   logoEl.parentNode.insertBefore(cobrand, logoEl);
@@ -32,6 +63,25 @@
       '<img src="' + referrer.logo + '" alt="' + referrer.name + '" />' +
     '</div>'
   );
+
+  // Switcher de demo (visible para que Valeria vea ambas experiencias)
+  // En producción esto NO existe — el subdominio lo decide.
+  const switcher = document.createElement('div');
+  switcher.className = 'hotel-switcher';
+  switcher.innerHTML =
+    '<span class="label">Demo · Ver como huésped de:</span>' +
+    '<button class="opt' + (hotelKey==='aloft'?' on':'') + '" data-h="aloft">Aloft</button>' +
+    '<button class="opt' + (hotelKey==='nyx'?' on':'') + '" data-h="nyx">NYX</button>';
+  document.body.appendChild(switcher);
+  switcher.querySelectorAll('button[data-h]').forEach(b => {
+    b.addEventListener('click', () => {
+      const h = b.getAttribute('data-h');
+      try { localStorage.setItem('refHotel', h); } catch(e){}
+      const u = new URL(location.href);
+      u.searchParams.set('h', h);
+      location.href = u.toString();
+    });
+  });
 })();
 
 (function(){

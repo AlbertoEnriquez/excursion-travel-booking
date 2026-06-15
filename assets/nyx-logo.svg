@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 90" role="img" aria-label="NYX Cancún">
+  <text x="120" y="58" text-anchor="middle"
+        font-family="'Helvetica Neue', Arial Black, sans-serif"
+        font-size="58" font-weight="900"
+        letter-spacing="-2"
+        fill="#1a2942">NYX</text>
+  <text x="120" y="78" text-anchor="middle"
+        font-family="Arial, sans-serif"
+        font-size="9" font-weight="700"
+        letter-spacing="6"
+        fill="#6b7280">CANCÚN</text>
+</svg>

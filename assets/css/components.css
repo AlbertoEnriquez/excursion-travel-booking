@@ -794,6 +794,39 @@ textarea.inp{min-height:96px;resize:vertical;line-height:1.5}
   animation:spin .8s linear infinite;
 }
 
+/* ===== Hotel switcher (DEMO ONLY) — En producción no existe.
+   Para que Valeria vea cómo se reconfigura el sitio según el hotel referidor. ===== */
+.hotel-switcher{
+  position:fixed;
+  top:calc(var(--hdr-height) + 6px);
+  left:50%;transform:translateX(-50%);
+  z-index:55;
+  background:#15123b;color:#fff;
+  padding:6px 6px 6px 14px;
+  border-radius:var(--radius-pill);
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:700;
+  max-width:calc(100vw - 24px);
+}
+.hotel-switcher .label{
+  opacity:.65;text-transform:uppercase;letter-spacing:.06em;
+  white-space:nowrap;font-size:10px;
+}
+.hotel-switcher .opt{
+  background:rgba(255,255,255,.08);color:#fff;
+  padding:5px 11px;border-radius:var(--radius-pill);
+  font-weight:700;font-size:11px;
+  border:none;cursor:pointer;font-family:inherit;
+  transition:.15s var(--ease);
+}
+.hotel-switcher .opt.on{background:var(--brand-primary)}
+.hotel-switcher .opt:hover:not(.on){background:rgba(255,255,255,.18)}
+@media (max-width:480px){
+  .hotel-switcher .label{display:none}
+  .hotel-switcher{padding:4px}
+}
+
 /* Toggle skeleton button (solo dev) */
 .skel-toggle{
   display:none; /* oculto por default — solo visible con ?dev=1 */
