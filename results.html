@@ -75,7 +75,7 @@
   <!-- Trip mini (editable) -->
   <div class="trip-mini">
     <div class="info">
-      <b>CUN → Aloft Cancún</b>
+      <b>CUN → <span class="hotel-dest">Aloft Cancún</span></b>
       <span>jue 28 → vie 29 may · 2 adultos · ida y vuelta</span>
     </div>
     <a href="index.html" class="edit">✏️ Editar</a>
@@ -146,7 +146,7 @@
             <span class="badge badge-ok">↩️ Reembolsable</span>
           </div>
           <div class="vcard-price" style="text-align:right">
-            <b>$1,344<span class="cur">MXN</span></b>
+            <b>$<span class="hotel-price" data-aloft="1,344" data-nyx="1,388">1,344</span><span class="cur">MXN</span></b>
             <span>ida y vuelta</span>
             <a href="passenger.html" class="btn btn-sm" style="margin-top:8px;display:inline-flex">Reservar →</a>
           </div>
@@ -168,15 +168,15 @@
         <div class="vcard-bottom">
           <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
           <div class="vcard-price" style="text-align:right">
-            <b>$3,040<span class="cur">MXN</span></b>
+            <b>$<span class="hotel-price" data-aloft="3,040" data-nyx="3,080">3,040</span><span class="cur">MXN</span></b>
             <span>ida y vuelta</span>
             <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
           </div>
         </div>
       </article>
 
-      <!-- Sprinter -->
-      <article class="vcard">
+      <!-- Sprinter (solo Aloft) -->
+      <article class="vcard hotel-only-aloft">
         <div class="vcard-top">
           <div class="vcard-img vimg-svg">
             <svg viewBox="0 0 120 60" fill="none"><rect x="14" y="18" width="92" height="28" rx="6" fill="var(--brand-primary)"/><rect x="20" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><rect x="44" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><rect x="68" y="24" width="20" height="14" rx="2" fill="#fff" opacity=".8"/><circle cx="36" cy="48" r="7" fill="var(--brand-ink)"/><circle cx="88" cy="48" r="7" fill="var(--brand-ink)"/></svg>
@@ -196,6 +196,28 @@
           </div>
         </div>
       </article>
+
+      <!-- 2 Vans Combinadas (solo NYX — no manejan Sprinter) -->
+      <article class="vcard hotel-only-nyx" style="display:none">
+        <div class="vcard-top">
+          <div class="vcard-img vimg-svg" style="position:relative">
+            <svg viewBox="0 0 120 60" fill="none"><rect x="6" y="22" width="56" height="22" rx="5" fill="var(--brand-primary)" opacity=".75"/><rect x="14" y="26" width="14" height="10" rx="2" fill="#fff" opacity=".8"/><rect x="32" y="26" width="12" height="10" rx="2" fill="#fff" opacity=".8"/><circle cx="20" cy="46" r="5" fill="var(--brand-ink)"/><circle cx="52" cy="46" r="5" fill="var(--brand-ink)"/><rect x="58" y="22" width="56" height="22" rx="5" fill="var(--brand-primary)"/><rect x="66" y="26" width="14" height="10" rx="2" fill="#fff" opacity=".8"/><rect x="84" y="26" width="12" height="10" rx="2" fill="#fff" opacity=".8"/><circle cx="72" cy="46" r="5" fill="var(--brand-ink)"/><circle cx="104" cy="46" r="5" fill="var(--brand-ink)"/></svg>
+          </div>
+          <div class="vcard-meta">
+            <h3>2 Vans Combinadas</h3>
+            <div class="vcard-feats"><span>👤 Hasta 16</span><span>🧳 16 maletas</span></div>
+            <span class="vcard-mg">😊 Meet & Greet incluido</span>
+          </div>
+        </div>
+        <div class="vcard-bottom">
+          <div><span class="badge badge-ok">↩️ Reembolsable</span></div>
+          <div class="vcard-price" style="text-align:right">
+            <b>$2,776<span class="cur">MXN</span></b>
+            <span>ida y vuelta</span>
+            <a href="passenger.html" class="btn btn-sm btn-ghost" style="margin-top:8px;display:inline-flex">Reservar</a>
+          </div>
+        </div>
+      </article>
       </div><!-- /#realView -->
     </section>
 
@@ -204,7 +226,7 @@
       <div class="summary">
         <div class="summary-h">
           <b>Tu viaje</b>
-          <p>jueves 28 may 2026<br/>CUN → Aloft Cancún</p>
+          <p>jueves 28 may 2026<br/>CUN → <span class="hotel-dest">Aloft Cancún</span></p>
         </div>
         <div class="summary-map">
           <div class="route"></div>

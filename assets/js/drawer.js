@@ -82,6 +82,35 @@ window.__HOTEL_REGISTRY__ = {
       location.href = u.toString();
     });
   });
+
+  /* ===== Customización por hotel del contenido visible =====
+     Actualiza destinos, precios y muestra/oculta vehículos según el hotel.
+     En producción esto ocurre server-side al renderizar.
+     ============================================================ */
+  const destinations = {
+    aloft: 'Aloft Cancún',
+    nyx:   'NYX Cancún'
+  };
+  const destName = destinations[hotelKey] || destinations.aloft;
+
+  // 1) Texto del destino dinámico
+  document.querySelectorAll('.hotel-dest').forEach(el => {
+    el.textContent = destName;
+  });
+
+  // 2) Precios variables por hotel (data-aloft / data-nyx)
+  document.querySelectorAll('.hotel-price').forEach(el => {
+    const price = el.getAttribute('data-' + hotelKey);
+    if (price) el.textContent = price;
+  });
+
+  // 3) Vehículos disponibles solo en uno u otro hotel
+  document.querySelectorAll('.hotel-only-aloft').forEach(el => {
+    el.style.display = (hotelKey === 'aloft') ? '' : 'none';
+  });
+  document.querySelectorAll('.hotel-only-nyx').forEach(el => {
+    el.style.display = (hotelKey === 'nyx') ? '' : 'none';
+  });
 })();
 
 (function(){
